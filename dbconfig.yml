@@ -1,0 +1,4 @@
+development:
+  dialect: mysql
+  dir: migrations
+  datasource: root:root@tcp(localhost:3308)/kit_enrollment_helper?parseTime=True

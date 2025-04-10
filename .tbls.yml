@@ -1,0 +1,6 @@
+# DSN (Database Source Name) to connect database
+dsn: mysql://root:root@localhost:3308/kit_enrollment_helper?hide_auto_increment=1
+# Path to generate document
+docPath: doc/schema
+
+disableOutputSchema: true

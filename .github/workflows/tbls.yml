@@ -1,0 +1,41 @@
+name: Generate DB Docs
+
+on:
+  push:
+    paths:
+      - "migrations/**"
+    branches:
+      - "main"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  tbls:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Set up tools
+        run: make init/tools
+
+      - name: Set up DB
+        run: make database/init
+
+      - name: Run tbls
+        run: tbls doc
+
+      - name: Commit and Push if Changes Exist
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add doc/schema
+          git diff --cached --quiet || (git commit -m "Update DB Schema Docs" && git push)
