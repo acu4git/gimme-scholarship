@@ -2,17 +2,17 @@ version: "3.9"
 services:
   db:
     build: ./docker/mysql
-    container_name: keh-db
+    container_name: gs-db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: kit_enrollment_helper
+      MYSQL_DATABASE: gimme_scholarship
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
       - "3308:3306"
     networks:
-      - keh-net
+      - gs-net
 
 networks:
-  keh-net:
-    name: keh-net
+  gs-net:
+    name: gs-net
