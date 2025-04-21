@@ -61,4 +61,3 @@ CREATE TABLE IF NOT EXISTS `scholarship_target` (
     ON DELETE RESTRICT
 ) ENGINE = InnoDB;
 -- +migrate Down
-
