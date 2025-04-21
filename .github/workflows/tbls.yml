@@ -31,7 +31,7 @@ jobs:
         run: make database/init
 
       - name: Run tbls
-        run: tbls doc
+        run: tbls doc --rm-dist
 
       - name: Commit and Push if Changes Exist
         run: |
