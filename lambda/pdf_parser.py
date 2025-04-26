@@ -30,7 +30,7 @@ def reiwa_to_date(date_str):
 
 
 # 奨学金のレコード(辞書型)のリストを返す
-def fetch_latest_scholarships():
+def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
     base_url = (
         "https://www.kit.ac.jp/campus_index/life_fee/scholarship/minkanscholarship/"
     )
@@ -49,7 +49,7 @@ def fetch_latest_scholarships():
 
     pdf_url = pdf_links[0]
     res = requests.get(pdf_url)
-    result = []
+    result: list[dict[str | None, str | None]] = []
 
     # 無効な奨学金情報を見つけたらフラグを立てる
     flag = False
