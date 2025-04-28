@@ -92,6 +92,8 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
                 # 整形
                 if row_data["掲示日"] != "":
                     row_data["掲示日"] = reiwa_to_date(row_data["掲示日"])
+                else:
+                    row_data["掲示日"] = date.min
                 row_data["対象(学部・院)"] = row_data["対象(学部・院)"].replace(
                     "\n", ""
                 )
@@ -100,7 +102,7 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
                 ):
                     row_data["申請期日"] = reiwa_to_date(row_data["申請期限等"])
                 else:
-                    row_data["申請期日"] = None
+                    row_data["申請期日"] = date.max
 
                 # print(row_data)
                 result.append(row_data)
@@ -109,6 +111,3 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
                 break
 
     return result
-
-
-fetch_latest_scholarships()
