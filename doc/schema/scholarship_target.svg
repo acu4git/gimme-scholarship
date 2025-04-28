@@ -44,31 +44,31 @@
 <text text-anchor="start" x="196.81" y="-394.2" font-family="Arial" font-size="14.00" fill="#666666">[varchar(128)]</text>
 <polygon fill="none" stroke="black" points="150.9,-351.2 150.9,-382 378.38,-382 378.38,-351.2 150.9,-351.2"/>
 <text text-anchor="start" x="157.9" y="-363.4" font-family="Arial" font-size="14.00">address </text>
-<text text-anchor="start" x="211.59" y="-363.4" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
+<text text-anchor="start" x="211.59" y="-363.4" font-family="Arial" font-size="14.00" fill="#666666">[text]</text>
 <polygon fill="none" stroke="black" points="150.9,-320.4 150.9,-351.2 378.38,-351.2 378.38,-320.4 150.9,-320.4"/>
 <text text-anchor="start" x="157.9" y="-332.6" font-family="Arial" font-size="14.00">target_detail </text>
-<text text-anchor="start" x="238.84" y="-332.6" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
+<text text-anchor="start" x="238.84" y="-332.6" font-family="Arial" font-size="14.00" fill="#666666">[text]</text>
 <polygon fill="none" stroke="black" points="150.9,-289.6 150.9,-320.4 378.38,-320.4 378.38,-289.6 150.9,-289.6"/>
 <text text-anchor="start" x="157.9" y="-301.8" font-family="Arial" font-size="14.00">amount_detail </text>
-<text text-anchor="start" x="249.74" y="-301.8" font-family="Arial" font-size="14.00" fill="#666666">[varchar(128)]</text>
+<text text-anchor="start" x="249.74" y="-301.8" font-family="Arial" font-size="14.00" fill="#666666">[text]</text>
 <polygon fill="none" stroke="black" points="150.9,-258.8 150.9,-289.6 378.38,-289.6 378.38,-258.8 150.9,-258.8"/>
 <text text-anchor="start" x="157.9" y="-271" font-family="Arial" font-size="14.00">type_detail </text>
-<text text-anchor="start" x="229.5" y="-271" font-family="Arial" font-size="14.00" fill="#666666">[varchar(128)]</text>
+<text text-anchor="start" x="229.5" y="-271" font-family="Arial" font-size="14.00" fill="#666666">[text]</text>
 <polygon fill="none" stroke="black" points="150.9,-228 150.9,-258.8 378.38,-258.8 378.38,-228 150.9,-228"/>
 <text text-anchor="start" x="157.9" y="-240.2" font-family="Arial" font-size="14.00">capacity_detail </text>
-<text text-anchor="start" x="254.4" y="-240.2" font-family="Arial" font-size="14.00" fill="#666666">[varchar(128)]</text>
+<text text-anchor="start" x="254.4" y="-240.2" font-family="Arial" font-size="14.00" fill="#666666">[text]</text>
 <polygon fill="none" stroke="black" points="150.9,-197.2 150.9,-228 378.38,-228 378.38,-197.2 150.9,-197.2"/>
 <text text-anchor="start" x="157.9" y="-209.4" font-family="Arial" font-size="14.00">deadline </text>
 <text text-anchor="start" x="214.73" y="-209.4" font-family="Arial" font-size="14.00" fill="#666666">[date]</text>
 <polygon fill="none" stroke="black" points="150.9,-166.4 150.9,-197.2 378.38,-197.2 378.38,-166.4 150.9,-166.4"/>
 <text text-anchor="start" x="157.9" y="-178.6" font-family="Arial" font-size="14.00">deadline_detail </text>
-<text text-anchor="start" x="255.98" y="-178.6" font-family="Arial" font-size="14.00" fill="#666666">[varchar(128)]</text>
+<text text-anchor="start" x="255.98" y="-178.6" font-family="Arial" font-size="14.00" fill="#666666">[text]</text>
 <polygon fill="none" stroke="black" points="150.9,-135.6 150.9,-166.4 378.38,-166.4 378.38,-135.6 150.9,-135.6"/>
 <text text-anchor="start" x="157.9" y="-147.8" font-family="Arial" font-size="14.00">contact_point </text>
-<text text-anchor="start" x="245.07" y="-147.8" font-family="Arial" font-size="14.00" fill="#666666">[varchar(128)]</text>
+<text text-anchor="start" x="245.07" y="-147.8" font-family="Arial" font-size="14.00" fill="#666666">[text]</text>
 <polygon fill="none" stroke="black" points="150.9,-104.8 150.9,-135.6 378.38,-135.6 378.38,-104.8 150.9,-104.8"/>
 <text text-anchor="start" x="157.9" y="-117" font-family="Arial" font-size="14.00">remark </text>
-<text text-anchor="start" x="205.35" y="-117" font-family="Arial" font-size="14.00" fill="#666666">[varchar(128)]</text>
+<text text-anchor="start" x="205.35" y="-117" font-family="Arial" font-size="14.00" fill="#666666">[text]</text>
 <polygon fill="none" stroke="black" points="150.9,-74 150.9,-104.8 378.38,-104.8 378.38,-74 150.9,-74"/>
 <text text-anchor="start" x="157.9" y="-86.2" font-family="Arial" font-size="14.00">posting_date </text>
 <text text-anchor="start" x="241.97" y="-86.2" font-family="Arial" font-size="14.00" fill="#666666">[date]</text>

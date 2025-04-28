@@ -1,4 +1,4 @@
-# scholarships
+# temporary_scholarships
 
 ## Description
 
@@ -6,7 +6,7 @@
 <summary><strong>Table Definition</strong></summary>
 
 ```sql
-CREATE TABLE `scholarships` (
+CREATE TABLE `temporary_scholarships` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE `scholarships` (
 
 | Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
-| id | int |  | false | auto_increment | [scholarship_target](scholarship_target.md) |  |  |
+| id | int |  | false | auto_increment |  |  |  |
 | name | varchar(128) |  | false |  |  |  |  |
 | address | text |  | false |  |  |  |  |
 | target_detail | text |  | false |  |  |  |  |
@@ -61,7 +61,7 @@ CREATE TABLE `scholarships` (
 
 ## Relations
 
-![er](scholarships.svg)
+![er](temporary_scholarships.svg)
 
 ---
 

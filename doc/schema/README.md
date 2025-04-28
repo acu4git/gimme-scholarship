@@ -8,6 +8,7 @@
 | [gorp_migrations](gorp_migrations.md) | 2 |  | BASE TABLE |
 | [scholarship_target](scholarship_target.md) | 3 |  | BASE TABLE |
 | [scholarships](scholarships.md) | 13 |  | BASE TABLE |
+| [temporary_scholarships](temporary_scholarships.md) | 13 |  | BASE TABLE |
 | [user_auth](user_auth.md) | 5 |  | BASE TABLE |
 | [users](users.md) | 6 |  | BASE TABLE |
 
