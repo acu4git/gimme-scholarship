@@ -7,14 +7,13 @@
 
 ```sql
 CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `uuid` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '表示名',
   `education_level_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uuid` (`uuid`),
   UNIQUE KEY `email` (`email`),
   KEY `users_education_level_id` (`education_level_id`),
   CONSTRAINT `users_education_level_id` FOREIGN KEY (`education_level_id`) REFERENCES `education_levels` (`id`) ON DELETE RESTRICT
@@ -27,12 +26,12 @@ CREATE TABLE `users` (
 
 | Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
-| id | int |  | false | auto_increment | [user_auth](user_auth.md) |  |  |
-| uuid | char(36) |  | false |  |  |  |  |
+| id | char(36) |  | false |  | [magic_links](magic_links.md) [user_favorite](user_favorite.md) |  |  |
 | email | varchar(255) |  | false |  |  |  |  |
 | name | varchar(255) |  | false |  |  |  | 表示名 |
 | education_level_id | int |  | false |  |  | [education_levels](education_levels.md) |  |
 | created_at | timestamp | CURRENT_TIMESTAMP | false | DEFAULT_GENERATED |  |  |  |
+| updated_at | timestamp | CURRENT_TIMESTAMP | false | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |  |  |  |
 
 ## Constraints
 
@@ -41,7 +40,6 @@ CREATE TABLE `users` (
 | email | UNIQUE | UNIQUE KEY email (email) |
 | PRIMARY | PRIMARY KEY | PRIMARY KEY (id) |
 | users_education_level_id | FOREIGN KEY | FOREIGN KEY (education_level_id) REFERENCES education_levels (id) |
-| uuid | UNIQUE | UNIQUE KEY uuid (uuid) |
 
 ## Indexes
 
@@ -50,7 +48,6 @@ CREATE TABLE `users` (
 | users_education_level_id | KEY users_education_level_id (education_level_id) USING BTREE |
 | PRIMARY | PRIMARY KEY (id) USING BTREE |
 | email | UNIQUE KEY email (email) USING BTREE |
-| uuid | UNIQUE KEY uuid (uuid) USING BTREE |
 
 ## Relations
 

@@ -60,29 +60,29 @@
 <text text-anchor="start" x="492.79" y="-467" font-family="Arial" font-size="14.00" fill="#666666">[BASE TABLE]</text>
 <polygon fill="none" stroke="black" points="417.68,-422.8 417.68,-453.6 593.17,-453.6 593.17,-422.8 417.68,-422.8"/>
 <text text-anchor="start" x="424.68" y="-435" font-family="Arial" font-size="14.00">id </text>
-<text text-anchor="start" x="439.47" y="-435" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
+<text text-anchor="start" x="439.47" y="-435" font-family="Arial" font-size="14.00" fill="#666666">[char(36)]</text>
 <polygon fill="none" stroke="black" points="417.68,-392 417.68,-422.8 593.17,-422.8 593.17,-392 417.68,-392"/>
-<text text-anchor="start" x="424.68" y="-404.2" font-family="Arial" font-size="14.00">uuid </text>
-<text text-anchor="start" x="455.04" y="-404.2" font-family="Arial" font-size="14.00" fill="#666666">[char(36)]</text>
+<text text-anchor="start" x="424.68" y="-404.2" font-family="Arial" font-size="14.00">email </text>
+<text text-anchor="start" x="462.03" y="-404.2" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
 <polygon fill="none" stroke="black" points="417.68,-361.2 417.68,-392 593.17,-392 593.17,-361.2 417.68,-361.2"/>
-<text text-anchor="start" x="424.68" y="-373.4" font-family="Arial" font-size="14.00">email </text>
-<text text-anchor="start" x="462.03" y="-373.4" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
+<text text-anchor="start" x="424.68" y="-373.4" font-family="Arial" font-size="14.00">name </text>
+<text text-anchor="start" x="463.59" y="-373.4" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
 <polygon fill="none" stroke="black" points="417.68,-330.4 417.68,-361.2 593.17,-361.2 593.17,-330.4 417.68,-330.4"/>
-<text text-anchor="start" x="424.68" y="-342.6" font-family="Arial" font-size="14.00">name </text>
-<text text-anchor="start" x="463.59" y="-342.6" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
+<text text-anchor="start" x="424.68" y="-342.6" font-family="Arial" font-size="14.00">education_level_id </text>
+<text text-anchor="start" x="544.55" y="-342.6" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
 <polygon fill="none" stroke="black" points="417.68,-299.6 417.68,-330.4 593.17,-330.4 593.17,-299.6 417.68,-299.6"/>
-<text text-anchor="start" x="424.68" y="-311.8" font-family="Arial" font-size="14.00">education_level_id </text>
-<text text-anchor="start" x="544.55" y="-311.8" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
+<text text-anchor="start" x="424.68" y="-311.8" font-family="Arial" font-size="14.00">created_at </text>
+<text text-anchor="start" x="494.73" y="-311.8" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
 <polygon fill="none" stroke="black" points="417.68,-268.8 417.68,-299.6 593.17,-299.6 593.17,-268.8 417.68,-268.8"/>
-<text text-anchor="start" x="424.68" y="-281" font-family="Arial" font-size="14.00">created_at </text>
-<text text-anchor="start" x="494.73" y="-281" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
+<text text-anchor="start" x="424.68" y="-281" font-family="Arial" font-size="14.00">updated_at </text>
+<text text-anchor="start" x="498.64" y="-281" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
 </g>
 <!-- users&#45;&gt;education_levels -->
 <g id="edge2" class="edge">
 <title>users:education_level_id&#45;&gt;education_levels:id</title>
-<path fill="none" stroke="black" d="M406.41,-313.39C381.36,-304.15 400.73,-257.02 417.68,-225.6 431.28,-200.39 457.56,-214.82 471.15,-189.6 491.64,-151.57 515.35,-92.4 472.15,-92.4"/>
-<polygon fill="black" stroke="black" points="406.47,-313.4 415.66,-319.39 411.74,-314.23 416.02,-314.9 416.02,-314.9 416.02,-314.9 411.74,-314.23 417.05,-310.5 406.47,-313.4"/>
-<text text-anchor="start" x="423.68" y="-299" font-family="Arial" font-size="10.00">FOREIGN KEY (education_level_id) REFERENCES education_levels (id)</text>
+<path fill="none" stroke="black" d="M406.61,-344.75C367.34,-335.64 394.17,-269.35 417.68,-225.6 431.25,-200.37 457.56,-214.82 471.15,-189.6 491.64,-151.57 515.35,-92.4 472.15,-92.4"/>
+<polygon fill="black" stroke="black" points="406.4,-344.73 415.88,-350.24 411.71,-345.28 416.02,-345.73 416.02,-345.73 416.02,-345.73 411.71,-345.28 416.82,-341.29 406.4,-344.73"/>
+<text text-anchor="start" x="423.68" y="-355.8" font-family="Arial" font-size="10.00">FOREIGN KEY (education_level_id) REFERENCES education_levels (id)</text>
 </g>
 </g>
 </svg>

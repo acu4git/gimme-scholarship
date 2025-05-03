@@ -19,7 +19,7 @@ CREATE TABLE `temporary_scholarships` (
   `contact_point` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `remark` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `posting_date` date NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
@@ -43,7 +43,7 @@ CREATE TABLE `temporary_scholarships` (
 | contact_point | text |  | false |  |  |  |  |
 | remark | text |  | false |  |  |  |  |
 | posting_date | date |  | false |  |  |  |  |
-| created_at | timestamp | CURRENT_TIMESTAMP | false | DEFAULT_GENERATED |  |  |  |
+| created_at | datetime | CURRENT_TIMESTAMP | false | DEFAULT_GENERATED |  |  |  |
 
 ## Constraints
 

@@ -74,7 +74,7 @@
 <text text-anchor="start" x="241.97" y="-86.2" font-family="Arial" font-size="14.00" fill="#666666">[date]</text>
 <polygon fill="none" stroke="black" points="150.9,-43.2 150.9,-74 378.38,-74 378.38,-43.2 150.9,-43.2"/>
 <text text-anchor="start" x="157.9" y="-55.4" font-family="Arial" font-size="14.00">created_at </text>
-<text text-anchor="start" x="227.95" y="-55.4" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
+<text text-anchor="start" x="227.95" y="-55.4" font-family="Arial" font-size="14.00" fill="#666666">[datetime]</text>
 </g>
 <!-- scholarship_target&#45;&gt;scholarships -->
 <g id="edge1" class="edge">

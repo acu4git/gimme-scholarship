@@ -12,9 +12,9 @@ CREATE TABLE `scholarship_target` (
   `education_level_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `scholarship_id` (`scholarship_id`,`education_level_id`),
-  KEY `fk_education_level_id` (`education_level_id`),
-  CONSTRAINT `fk_education_level_id` FOREIGN KEY (`education_level_id`) REFERENCES `education_levels` (`id`) ON DELETE RESTRICT,
-  CONSTRAINT `fk_scholarship_id` FOREIGN KEY (`scholarship_id`) REFERENCES `scholarships` (`id`) ON DELETE CASCADE
+  KEY `scholarship_target_education_level_id` (`education_level_id`),
+  CONSTRAINT `fk_scholarship_id` FOREIGN KEY (`scholarship_id`) REFERENCES `scholarships` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `scholarship_target_education_level_id` FOREIGN KEY (`education_level_id`) REFERENCES `education_levels` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 
@@ -32,16 +32,16 @@ CREATE TABLE `scholarship_target` (
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
-| fk_education_level_id | FOREIGN KEY | FOREIGN KEY (education_level_id) REFERENCES education_levels (id) |
 | fk_scholarship_id | FOREIGN KEY | FOREIGN KEY (scholarship_id) REFERENCES scholarships (id) |
 | PRIMARY | PRIMARY KEY | PRIMARY KEY (id) |
 | scholarship_id | UNIQUE | UNIQUE KEY scholarship_id (scholarship_id, education_level_id) |
+| scholarship_target_education_level_id | FOREIGN KEY | FOREIGN KEY (education_level_id) REFERENCES education_levels (id) |
 
 ## Indexes
 
 | Name | Definition |
 | ---- | ---------- |
-| fk_education_level_id | KEY fk_education_level_id (education_level_id) USING BTREE |
+| scholarship_target_education_level_id | KEY scholarship_target_education_level_id (education_level_id) USING BTREE |
 | PRIMARY | PRIMARY KEY (id) USING BTREE |
 | scholarship_id | UNIQUE KEY scholarship_id (scholarship_id, education_level_id) USING BTREE |
 
