@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `education_level_id` INT NOT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT `fk_education_level_id`
+  CONSTRAINT `users_education_level_id`
     FOREIGN KEY (`education_level_id`)
     REFERENCES `education_levels`(`id`)
     ON DELETE RESTRICT
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `magic_links` (
   `used` BOOLEAN NOT NULL DEFAULT FALSE,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT `fk_user_id`
+  CONSTRAINT `magic_links_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `users`(`id`)
     ON DELETE CASCADE
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `scholarship_target` (
     FOREIGN KEY (`scholarship_id`)
     REFERENCES `scholarships` (`id`)
     ON DELETE CASCADE,
-  CONSTRAINT `fk_education_level_id`
+  CONSTRAINT `scholarship_target_education_level_id`
     FOREIGN KEY (`education_level_id`)
     REFERENCES `education_levels` (`id`)
     ON DELETE RESTRICT
@@ -85,11 +85,11 @@ CREATE TABLE IF NOT EXISTS `user_favorite` (
   `user_id` CHAR(36) NOT NULL,
   `scholarship_id` INT NOT NULL,
   UNIQUE KEY (`user_id`, `scholarship_id`),
-  CONSTRAINT `fk_user_id`
+  CONSTRAINT `user_favorite_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE,
-  CONSTRAINT `fk_scholarship_id`
+  CONSTRAINT `user_favorite_scholarship_id`
     FOREIGN KEY (`scholarship_id`)
     REFERENCES `scholarships` (`id`)
     ON DELETE CASCADE
