@@ -5,28 +5,30 @@ CREATE TABLE IF NOT EXISTS `education_levels` (
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `uuid` CHAR(36) NOT NULL UNIQUE,
+  `id` CHAR(36) PRIMARY KEY,
   `email` VARCHAR(255) NOT NULL UNIQUE,
   `name` VARCHAR(255) NOT NULL COMMENT '表示名',
   `education_level_id` INT NOT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `users_education_level_id`
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_education_level_id`
     FOREIGN KEY (`education_level_id`)
     REFERENCES `education_levels`(`id`)
     ON DELETE RESTRICT
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `user_auth` (
+CREATE TABLE IF NOT EXISTS `magic_links` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `user_id` INT NOT NULL,
-  `sub` VARCHAR(255) NOT NULL,
-  `provider` VARCHAR(64) NOT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` CHAR(36) NOT NULL,
+  `token` VARCHAR(255) NOT NULL UNIQUE,
+  `expires_at` DATETIME NOT NULL,
+  `used` BOOLEAN NOT NULL DEFAULT FALSE,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT `fk_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `users` (`id`),
-  UNIQUE KEY `unique_sub_provider` (`sub`, `provider`)
+    REFERENCES `users`(`id`)
+    ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `scholarships` (
@@ -42,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `scholarships` (
   `contact_point` TEXT NOT NULL,
   `remark` TEXT NOT NULL,
   `posting_date` DATE NOT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY (`name`)
 ) ENGINE = InnoDB;
 
@@ -59,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `temporary_scholarships` (
   `contact_point` TEXT NOT NULL,
   `remark` TEXT NOT NULL,
   `posting_date` DATE NOT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY (`name`)
 ) ENGINE = InnoDB;
 
@@ -76,5 +78,20 @@ CREATE TABLE IF NOT EXISTS `scholarship_target` (
     FOREIGN KEY (`education_level_id`)
     REFERENCES `education_levels` (`id`)
     ON DELETE RESTRICT
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `user_favorite` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` CHAR(36) NOT NULL,
+  `scholarship_id` INT NOT NULL,
+  UNIQUE KEY (`user_id`, `scholarship_id`),
+  CONSTRAINT `fk_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE,
+  CONSTRAINT `fk_scholarship_id`
+    FOREIGN KEY (`scholarship_id`)
+    REFERENCES `scholarships` (`id`)
+    ON DELETE CASCADE
 ) ENGINE = InnoDB;
 -- +migrate Down
