@@ -28,7 +28,7 @@ func main() {
 	}
 	handler := handler.NewAPIHandler(repository)
 
-	e.GET("/search", handler.SearchScholarships)
+	e.GET("/scholarships", handler.GetScholarships)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", *port)))
 }
