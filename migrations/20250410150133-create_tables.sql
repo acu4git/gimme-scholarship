@@ -17,20 +17,6 @@ CREATE TABLE IF NOT EXISTS `users` (
     ON DELETE RESTRICT
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `magic_links` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `user_id` CHAR(36) NOT NULL,
-  `token` VARCHAR(255) NOT NULL UNIQUE,
-  `expires_at` DATETIME NOT NULL,
-  `used` BOOLEAN NOT NULL DEFAULT FALSE,
-  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT `magic_links_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `users`(`id`)
-    ON DELETE CASCADE
-) ENGINE = InnoDB;
-
 CREATE TABLE IF NOT EXISTS `scholarships` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(128) NOT NULL,
@@ -65,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `temporary_scholarships` (
   UNIQUE KEY (`name`)
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `scholarship_target` (
+CREATE TABLE IF NOT EXISTS `scholarship_targets` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `scholarship_id` INT NOT NULL,
   `education_level_id` INT NOT NULL,
@@ -80,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `scholarship_target` (
     ON DELETE RESTRICT
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `user_favorite` (
+CREATE TABLE IF NOT EXISTS `user_favorites` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_id` CHAR(36) NOT NULL,
   `scholarship_id` INT NOT NULL,
