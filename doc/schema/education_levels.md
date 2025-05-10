@@ -19,7 +19,7 @@ CREATE TABLE `education_levels` (
 
 | Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
-| id | int |  | false | auto_increment | [scholarship_target](scholarship_target.md) [users](users.md) |  |  |
+| id | int |  | false | auto_increment | [scholarship_targets](scholarship_targets.md) [users](users.md) |  |  |
 | name | varchar(8) |  | true |  |  |  | 学部や院などの情報 |
 
 ## Constraints

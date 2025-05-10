@@ -31,7 +31,7 @@ CREATE TABLE `scholarships` (
 
 | Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
-| id | int |  | false | auto_increment | [scholarship_target](scholarship_target.md) [user_favorite](user_favorite.md) |  |  |
+| id | int |  | false | auto_increment | [scholarship_targets](scholarship_targets.md) [user_favorites](user_favorites.md) |  |  |
 | name | varchar(128) |  | false |  |  |  |  |
 | address | text |  | false |  |  |  |  |
 | target_detail | text |  | false |  |  |  |  |

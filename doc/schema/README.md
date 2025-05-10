@@ -6,11 +6,10 @@
 | ---- | ------- | ------- | ---- |
 | [education_levels](education_levels.md) | 2 |  | BASE TABLE |
 | [gorp_migrations](gorp_migrations.md) | 2 |  | BASE TABLE |
-| [magic_links](magic_links.md) | 7 |  | BASE TABLE |
-| [scholarship_target](scholarship_target.md) | 3 |  | BASE TABLE |
+| [scholarship_targets](scholarship_targets.md) | 3 |  | BASE TABLE |
 | [scholarships](scholarships.md) | 13 |  | BASE TABLE |
 | [temporary_scholarships](temporary_scholarships.md) | 13 |  | BASE TABLE |
-| [user_favorite](user_favorite.md) | 3 |  | BASE TABLE |
+| [user_favorites](user_favorites.md) | 3 |  | BASE TABLE |
 | [users](users.md) | 6 |  | BASE TABLE |
 
 ## Relations

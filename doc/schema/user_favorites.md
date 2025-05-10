@@ -1,4 +1,4 @@
-# user_favorite
+# user_favorites
 
 ## Description
 
@@ -6,7 +6,7 @@
 <summary><strong>Table Definition</strong></summary>
 
 ```sql
-CREATE TABLE `user_favorite` (
+CREATE TABLE `user_favorites` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `scholarship_id` int NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `user_favorite` (
 
 ## Relations
 
-![er](user_favorite.svg)
+![er](user_favorites.svg)
 
 ---
 

@@ -26,7 +26,7 @@ CREATE TABLE `users` (
 
 | Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
-| id | char(36) |  | false |  | [magic_links](magic_links.md) [user_favorite](user_favorite.md) |  |  |
+| id | char(36) |  | false |  | [user_favorites](user_favorites.md) |  |  |
 | email | varchar(255) |  | false |  |  |  |  |
 | name | varchar(255) |  | false |  |  |  | 表示名 |
 | education_level_id | int |  | false |  |  | [education_levels](education_levels.md) |  |

@@ -1,4 +1,4 @@
-# scholarship_target
+# scholarship_targets
 
 ## Description
 
@@ -6,7 +6,7 @@
 <summary><strong>Table Definition</strong></summary>
 
 ```sql
-CREATE TABLE `scholarship_target` (
+CREATE TABLE `scholarship_targets` (
   `id` int NOT NULL AUTO_INCREMENT,
   `scholarship_id` int NOT NULL,
   `education_level_id` int NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `scholarship_target` (
 
 ## Relations
 
-![er](scholarship_target.svg)
+![er](scholarship_targets.svg)
 
 ---
 
