@@ -33,13 +33,18 @@ func main() {
 		AllowOrigins: origins,
 	}))
 
+	// Injection
 	repository, err := service.CreateRepository()
 	if err != nil {
 		log.Fatal(err)
 	}
 	handler := handler.NewAPIHandler(repository)
 
-	e.GET("/scholarships", handler.GetScholarships)
+	registerRoutes(e, handler)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", *port)))
+}
+
+func registerRoutes(router *echo.Echo, handler *handler.APIHandler) {
+	router.GET("/scholarships", handler.GetScholarships)
 }
