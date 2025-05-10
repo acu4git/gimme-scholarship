@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 
 	"github.com/acu4git/gimme-scholarship/internal/app/api/handler"
 	"github.com/acu4git/gimme-scholarship/internal/service"
@@ -21,6 +23,15 @@ func main() {
 	e.HidePort = true
 	e.Use(middleware.Recover())
 	e.Use(middleware.Secure())
+
+	// CORS
+	origins := []string{"*"}
+	if os.Getenv("ALLOW_ORIGINS") != "" {
+		origins = strings.Split(os.Getenv("ALLOW_ORIGINS"), ",")
+	}
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: origins,
+	}))
 
 	repository, err := service.CreateRepository()
 	if err != nil {
