@@ -87,7 +87,7 @@ def upsert_scholarships(latest_scholarships: list[dict[str | None, str | None]])
                 result = cursor.fetchone()
 
                 stmt = """
-                    INSERT INTO scholarship_target (scholarship_id, education_level_id)
+                    INSERT INTO scholarship_targets (scholarship_id, education_level_id)
                     VALUES (%s, %s)
                 """
                 cursor.execute(stmt, [scholarship_id, result["id"]])

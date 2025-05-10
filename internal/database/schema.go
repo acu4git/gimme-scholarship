@@ -19,7 +19,7 @@ type user struct {
 type scholarship struct {
 	ID             int64     `db:"id"`
 	Name           string    `db:"name"`
-	Address        string    `db:"name"`
+	Address        string    `db:"address"`
 	TargetDetail   string    `db:"target_detail"`
 	AmountDetail   string    `db:"amount_detail"`
 	TypeDetail     string    `db:"type_detail"`

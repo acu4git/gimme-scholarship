@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 
 	"github.com/acu4git/gimme-scholarship/internal/domain/model"
 	_ "github.com/go-sql-driver/mysql"
@@ -11,7 +12,10 @@ import (
 )
 
 const (
-	tableCourses = "courses"
+	tableUsers              = "users"
+	tableScholarships       = "scholarships"
+	tableScholarshipTargets = "scholarship_targets"
+	tableEducationLevels    = "education_levels"
 )
 
 var (
@@ -57,4 +61,54 @@ func NewDatabase() (*Database, error) {
 
 func (db *Database) CreateUser(user model.User) error {
 	return nil
+}
+
+func (db *Database) GetScholarships() ([]model.Scholarship, error) {
+	res := make([]model.Scholarship, 0)
+
+	type scholarshipWithTarget struct {
+		scholarship
+		Target string `db:"target"`
+	}
+	flat := make([]scholarshipWithTarget, 0)
+	stmt := db.sess.Select(fmt.Sprintf("%s.*, %s.name AS target", tableScholarships, tableEducationLevels)).
+		From(tableScholarships).
+		Join(tableScholarshipTargets, fmt.Sprintf("%s.id = %s.scholarship_id", tableScholarships, tableScholarshipTargets)).
+		Join(tableEducationLevels, fmt.Sprintf("%s.id = %s.education_level_id", tableEducationLevels, tableScholarshipTargets))
+
+	if _, err := stmt.Load(&flat); err != nil {
+		return nil, err
+	}
+
+	scholarshipMap := make(map[int64]*model.Scholarship)
+	for _, f := range flat {
+		s, ok := scholarshipMap[f.ID]
+		if !ok {
+			s = &model.Scholarship{
+				ID:             f.ID,
+				Name:           f.Name,
+				Address:        f.Address,
+				TargetDetail:   f.TargetDetail,
+				AmountDetail:   f.AmountDetail,
+				TypeDetail:     f.TypeDetail,
+				CapacityDetail: f.CapacityDetail,
+				DeadlineDetail: f.DeadlineDetail,
+				ContactPoint:   f.ContactPoint,
+				Remark:         f.Remark,
+				PostingDate:    f.PostingDate.Format("2006-01-02"), // 文字列に変換
+			}
+			scholarshipMap[f.ID] = s
+		}
+		s.Targets = append(s.Targets, f.Target)
+	}
+
+	for _, s := range scholarshipMap {
+		res = append(res, *s)
+	}
+
+	sort.Slice(res, func(i, j int) bool {
+		return res[i].ID < res[j].ID
+	})
+
+	return res, nil
 }

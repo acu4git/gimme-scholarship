@@ -18,5 +18,11 @@ func NewAPIHandler(repository repository.Repository) *APIHandler {
 }
 
 func (h *APIHandler) GetScholarships(c echo.Context) error {
-	return c.JSON(http.StatusOK, nil)
+	scholarships, err := h.repository.GetScholarships()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+	return c.JSONPretty(http.StatusOK, toGetScholarshipsOutput(scholarships), "  ")
 }
