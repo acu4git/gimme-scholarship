@@ -15,7 +15,6 @@ import (
 )
 
 var (
-	jwksURL    = os.Getenv("CLERK_JWKS_URL")
 	cachedJWKS jwk.Set
 	mu         sync.RWMutex
 	lastFetch  time.Time
@@ -83,6 +82,11 @@ func getCachedJWKS(ctx context.Context) (jwk.Set, error) {
 		return cachedJWKS, nil
 	}
 
+	jwksURL := os.Getenv("CLERK_JWKS_URL")
+	if jwksURL == "" {
+		// dev
+		jwksURL = "https://precious-ghoul-88.clerk.accounts.dev/.well-known/jwks.json"
+	}
 	newJWKS, err := jwk.Fetch(ctx, jwksURL)
 	if err != nil {
 		return nil, err
