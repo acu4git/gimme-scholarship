@@ -7,6 +7,7 @@ import (
 	"sort"
 
 	"github.com/acu4git/gimme-scholarship/internal/domain/model"
+	"github.com/acu4git/gimme-scholarship/internal/domain/repository"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gocraft/dbr/v2"
 )
@@ -63,7 +64,7 @@ func (db *Database) CreateUser(user model.User) error {
 	return nil
 }
 
-func (db *Database) GetScholarships() ([]model.Scholarship, error) {
+func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Scholarship, error) {
 	res := make([]model.Scholarship, 0)
 
 	type scholarshipWithTarget struct {
@@ -75,6 +76,14 @@ func (db *Database) GetScholarships() ([]model.Scholarship, error) {
 		From(tableScholarships).
 		Join(tableScholarshipTargets, fmt.Sprintf("%s.id = %s.scholarship_id", tableScholarships, tableScholarshipTargets)).
 		Join(tableEducationLevels, fmt.Sprintf("%s.id = %s.education_level_id", tableEducationLevels, tableScholarshipTargets))
+
+	if option.Target != "" {
+		stmt = stmt.Where(fmt.Sprintf("%s.name = ?", tableEducationLevels), option.Target)
+	}
+
+	if option.Type != "" {
+		stmt = stmt.Where(fmt.Sprintf("%s.type_detail LIKE ?", tableScholarships), fmt.Sprintf("[%s]%%", option.Type))
+	}
 
 	if _, err := stmt.Load(&flat); err != nil {
 		return nil, err
@@ -92,6 +101,7 @@ func (db *Database) GetScholarships() ([]model.Scholarship, error) {
 				AmountDetail:   f.AmountDetail,
 				TypeDetail:     f.TypeDetail,
 				CapacityDetail: f.CapacityDetail,
+				Deadline:       f.Deadline.Format("2006-01-02"),
 				DeadlineDetail: f.DeadlineDetail,
 				ContactPoint:   f.ContactPoint,
 				Remark:         f.Remark,
