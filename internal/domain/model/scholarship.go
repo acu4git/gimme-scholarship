@@ -9,6 +9,7 @@ type Scholarship struct {
 	AmountDetail   string
 	TypeDetail     string
 	CapacityDetail string
+	Deadline       string
 	DeadlineDetail string
 	ContactPoint   string
 	Remark         string
