@@ -31,3 +31,6 @@ sleep:
 
 docker/mysql/migrate:
 	sql-migrate up -env="development"
+
+gen/tbls:
+	tbls doc --rm-dist
