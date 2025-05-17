@@ -11,6 +11,7 @@ type scholarshipOutput struct {
 	AmountDetail   string   `json:"amount_detail"`
 	TypeDetail     string   `json:"type_detail"`
 	CapacityDetail string   `json:"capacity_detail"`
+	Deadline       string   `json:"deadline"`
 	DeadlineDetail string   `json:"deadline_detail"`
 	ContactPoint   string   `json:"contact_point"`
 	Remark         string   `json:"remark"`
@@ -31,6 +32,7 @@ func toGetScholarshipsOutput(scholarships []model.Scholarship) GetScholarshipsOu
 			AmountDetail:   s.AmountDetail,
 			TypeDetail:     s.TypeDetail,
 			CapacityDetail: s.CapacityDetail,
+			Deadline:       s.Deadline,
 			DeadlineDetail: s.DeadlineDetail,
 			ContactPoint:   s.ContactPoint,
 			Remark:         s.Remark,
