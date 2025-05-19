@@ -2,7 +2,7 @@ package handler
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 	"os"
 	"strings"
 	"sync"
@@ -16,7 +16,7 @@ import (
 
 var (
 	cachedJWKS jwk.Set
-	mu         sync.RWMutex
+	mu         = &sync.RWMutex{}
 	lastFetch  time.Time
 )
 
@@ -53,24 +53,17 @@ func (a *Auth) Skipper(c echo.Context) bool {
 func (a *Auth) Validator(tokenStr string, c echo.Context) (bool, error) {
 	jwks, err := getCachedJWKS(context.Background())
 	if err != nil {
-		return false, c.JSON(http.StatusInternalServerError, map[string]any{
-			"error": "failed to get cached jwks: " + err.Error(),
-		})
+		return false, fmt.Errorf("failed to get cached jwks: %w", err)
 	}
 
 	token, err := jwt.ParseString(tokenStr, jwt.WithKeySet(jwks), jwt.WithValidate(true))
 	if err != nil {
-		return false, c.JSON(http.StatusBadRequest, map[string]any{
-			"error": "failed to parse tokenStr: " + err.Error(),
-		})
+		return false, fmt.Errorf("failed to parse tokenStr: %w", err)
 	}
 
-	sub, ok := token.Get("sub")
-	if !ok {
-		return false, c.JSON(http.StatusUnauthorized, "missing sub claim")
-	}
+	sub := token.Subject()
+	c.Set(userIDKey, sub)
 
-	c.Set(userIDKey, sub.(string))
 	return true, nil
 }
 
