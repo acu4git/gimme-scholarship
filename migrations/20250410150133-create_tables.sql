@@ -5,10 +5,12 @@ CREATE TABLE IF NOT EXISTS `education_levels` (
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` CHAR(64) PRIMARY KEY,
+  `id` VARCHAR(64) PRIMARY KEY,
   `email` VARCHAR(255) NOT NULL UNIQUE,
-  `name` VARCHAR(255) NULL COMMENT '表示名',
+  `name` VARCHAR(255) COMMENT '表示名',
   `education_level_id` INT NOT NULL,
+  `grade` INT NOT NULL,
+  `accept_email` BOOLEAN NOT NULL DEFAULT false,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT `users_education_level_id`
