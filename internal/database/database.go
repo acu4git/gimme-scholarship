@@ -1,6 +1,8 @@
 package database
 
 import (
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"log"
 	"os"
@@ -8,11 +10,13 @@ import (
 
 	"github.com/acu4git/gimme-scholarship/internal/domain/model"
 	"github.com/acu4git/gimme-scholarship/internal/domain/repository"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-sql-driver/mysql"
 	"github.com/gocraft/dbr/v2"
 )
 
 const (
+	tlsKey = "rds"
+
 	tableUsers              = "users"
 	tableScholarships       = "scholarships"
 	tableScholarshipTargets = "scholarship_targets"
@@ -25,6 +29,8 @@ var (
 	username string
 	password string
 	dbname   string
+
+	registeredTLSKey = registerTLSConfig("RDS_CERT_FILE_PATH")
 )
 
 type Database struct {
@@ -49,6 +55,9 @@ func NewDatabase() (*Database, error) {
 	}
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", username, password, host, port, dbname)
+	if len(registeredTLSKey) > 0 {
+		dsn = fmt.Sprintf("%s&tls=%s", dsn, registeredTLSKey)
+	}
 	conn, err := dbr.Open("mysql", dsn, nil)
 	if err != nil {
 		log.Println("failed at dbr.Open()")
@@ -60,8 +69,58 @@ func NewDatabase() (*Database, error) {
 	return &Database{sess: sess}, nil
 }
 
-func (db *Database) CreateUser(user model.User) error {
-	return nil
+func registerTLSConfig(envKey string) string {
+	pemPath := os.Getenv(envKey)
+	if len(pemPath) == 0 {
+		return ""
+	}
+
+	certPool := x509.NewCertPool()
+	pem, err := os.ReadFile(pemPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if ok := certPool.AppendCertsFromPEM(pem); !ok {
+		log.Fatal("error: failed to append certs from pem")
+	}
+
+	if err := mysql.RegisterTLSConfig(tlsKey, &tls.Config{
+		MinVersion: tls.VersionTLS12,
+		RootCAs:    certPool,
+	}); err != nil {
+		log.Fatal(err)
+	}
+
+	return tlsKey
+}
+
+func (db *Database) CreateUser(input repository.UserInput) error {
+	tx, err := db.sess.Begin()
+	defer tx.RollbackUnlessCommitted()
+	if err != nil {
+		return err
+	}
+
+	var el educationLevel
+	if err := tx.Select("*").
+		From(tableEducationLevels).
+		Where("name = ?", input.Level).LoadOne(&el); err != nil {
+		return err
+	}
+
+	u := user{
+		ID:               input.ID,
+		Email:            input.Email,
+		EducationLevelID: el.ID,
+		Grade:            input.Grade,
+		AcceptEmail:      input.AcceptEmail,
+	}
+	if _, err := tx.InsertInto(tableUsers).Columns(u.columns()...).Record(&u).Exec(); err != nil {
+		return err
+	}
+
+	return tx.Commit()
 }
 
 func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Scholarship, error) {
