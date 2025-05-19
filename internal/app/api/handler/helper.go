@@ -1,5 +1,6 @@
 package handler
 
 const (
-	userIDKey = "userID"
+	userIDKey    = "userID"
+	prettyIndent = "  "
 )
