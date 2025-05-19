@@ -195,43 +195,49 @@
 <!-- users -->
 <g id="node7" class="node">
 <title>users</title>
-<polygon fill="#efefef" stroke="none" points="679.5,-555.4 679.5,-591 854.99,-591 854.99,-555.4 679.5,-555.4"/>
-<polygon fill="none" stroke="black" points="679.5,-555.4 679.5,-591 854.99,-591 854.99,-555.4 679.5,-555.4"/>
-<text text-anchor="start" x="686.5" y="-568.8" font-family="Arial Bold" font-size="18.00">users</text>
-<text text-anchor="start" x="723.5" y="-568.8" font-family="Arial" font-size="14.00">    </text>
-<text text-anchor="start" x="754.61" y="-568.8" font-family="Arial" font-size="14.00" fill="#666666">[BASE TABLE]</text>
+<polygon fill="#efefef" stroke="none" points="679.5,-586.2 679.5,-621.8 854.99,-621.8 854.99,-586.2 679.5,-586.2"/>
+<polygon fill="none" stroke="black" points="679.5,-586.2 679.5,-621.8 854.99,-621.8 854.99,-586.2 679.5,-586.2"/>
+<text text-anchor="start" x="686.5" y="-599.6" font-family="Arial Bold" font-size="18.00">users</text>
+<text text-anchor="start" x="723.5" y="-599.6" font-family="Arial" font-size="14.00">    </text>
+<text text-anchor="start" x="754.61" y="-599.6" font-family="Arial" font-size="14.00" fill="#666666">[BASE TABLE]</text>
+<polygon fill="none" stroke="black" points="679.5,-555.4 679.5,-586.2 854.99,-586.2 854.99,-555.4 679.5,-555.4"/>
+<text text-anchor="start" x="686.5" y="-567.6" font-family="Arial" font-size="14.00">id </text>
+<text text-anchor="start" x="701.29" y="-567.6" font-family="Arial" font-size="14.00" fill="#666666">[varchar(64)]</text>
 <polygon fill="none" stroke="black" points="679.5,-524.6 679.5,-555.4 854.99,-555.4 854.99,-524.6 679.5,-524.6"/>
-<text text-anchor="start" x="686.5" y="-536.8" font-family="Arial" font-size="14.00">id </text>
-<text text-anchor="start" x="701.29" y="-536.8" font-family="Arial" font-size="14.00" fill="#666666">[char(36)]</text>
+<text text-anchor="start" x="686.5" y="-536.8" font-family="Arial" font-size="14.00">email </text>
+<text text-anchor="start" x="723.85" y="-536.8" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
 <polygon fill="none" stroke="black" points="679.5,-493.8 679.5,-524.6 854.99,-524.6 854.99,-493.8 679.5,-493.8"/>
-<text text-anchor="start" x="686.5" y="-506" font-family="Arial" font-size="14.00">email </text>
-<text text-anchor="start" x="723.85" y="-506" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
+<text text-anchor="start" x="686.5" y="-506" font-family="Arial" font-size="14.00">name </text>
+<text text-anchor="start" x="725.41" y="-506" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
 <polygon fill="none" stroke="black" points="679.5,-463 679.5,-493.8 854.99,-493.8 854.99,-463 679.5,-463"/>
-<text text-anchor="start" x="686.5" y="-475.2" font-family="Arial" font-size="14.00">name </text>
-<text text-anchor="start" x="725.41" y="-475.2" font-family="Arial" font-size="14.00" fill="#666666">[varchar(255)]</text>
+<text text-anchor="start" x="686.5" y="-475.2" font-family="Arial" font-size="14.00">education_level_id </text>
+<text text-anchor="start" x="806.37" y="-475.2" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
 <polygon fill="none" stroke="black" points="679.5,-432.2 679.5,-463 854.99,-463 854.99,-432.2 679.5,-432.2"/>
-<text text-anchor="start" x="686.5" y="-444.4" font-family="Arial" font-size="14.00">education_level_id </text>
-<text text-anchor="start" x="806.37" y="-444.4" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
+<text text-anchor="start" x="686.5" y="-444.4" font-family="Arial" font-size="14.00">grade </text>
+<text text-anchor="start" x="726.2" y="-444.4" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
 <polygon fill="none" stroke="black" points="679.5,-401.4 679.5,-432.2 854.99,-432.2 854.99,-401.4 679.5,-401.4"/>
-<text text-anchor="start" x="686.5" y="-413.6" font-family="Arial" font-size="14.00">created_at </text>
-<text text-anchor="start" x="756.55" y="-413.6" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
+<text text-anchor="start" x="686.5" y="-413.6" font-family="Arial" font-size="14.00">accept_email </text>
+<text text-anchor="start" x="772.88" y="-413.6" font-family="Arial" font-size="14.00" fill="#666666">[tinyint(1)]</text>
 <polygon fill="none" stroke="black" points="679.5,-370.6 679.5,-401.4 854.99,-401.4 854.99,-370.6 679.5,-370.6"/>
-<text text-anchor="start" x="686.5" y="-382.8" font-family="Arial" font-size="14.00">updated_at </text>
-<text text-anchor="start" x="760.46" y="-382.8" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
+<text text-anchor="start" x="686.5" y="-382.8" font-family="Arial" font-size="14.00">created_at </text>
+<text text-anchor="start" x="756.55" y="-382.8" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
+<polygon fill="none" stroke="black" points="679.5,-339.8 679.5,-370.6 854.99,-370.6 854.99,-339.8 679.5,-339.8"/>
+<text text-anchor="start" x="686.5" y="-352" font-family="Arial" font-size="14.00">updated_at </text>
+<text text-anchor="start" x="760.46" y="-352" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
 </g>
 <!-- user_favorites&#45;&gt;users -->
 <g id="edge4" class="edge">
 <title>user_favorites:user_id&#45;&gt;users:id</title>
-<path fill="none" stroke="black" d="M866.83,-1021.03C1064.36,-1006.01 454.07,-540 678.5,-540"/>
-<polygon fill="black" stroke="black" points="866.8,-1021.03 856.64,-1016.89 861.47,-1021.22 857.14,-1021.38 857.14,-1021.38 857.14,-1021.38 861.47,-1021.22 856.97,-1025.89 866.8,-1021.03"/>
+<path fill="none" stroke="black" d="M866.8,-1021.01C1051.23,-1006.13 466.86,-570.8 678.5,-570.8"/>
+<polygon fill="black" stroke="black" points="866.8,-1021.01 856.63,-1016.89 861.47,-1021.21 857.14,-1021.37 857.14,-1021.37 857.14,-1021.37 861.47,-1021.21 856.97,-1025.88 866.8,-1021.01"/>
 <text text-anchor="start" x="743.39" y="-1005.4" font-family="Arial" font-size="10.00">FOREIGN KEY (user_id) REFERENCES users (id)</text>
 </g>
 <!-- users&#45;&gt;education_levels -->
 <g id="edge5" class="edge">
 <title>users:education_level_id&#45;&gt;education_levels:id</title>
-<path fill="none" stroke="black" d="M668.42,-447.07C531.79,-431.69 808.02,-89.4 651.97,-89.4"/>
-<polygon fill="black" stroke="black" points="668.18,-447.05 677.93,-452.08 673.51,-447.34 677.84,-447.56 677.84,-447.56 677.84,-447.56 673.51,-447.34 678.41,-443.09 668.18,-447.05"/>
-<text text-anchor="start" x="685.5" y="-457.6" font-family="Arial" font-size="10.00">FOREIGN KEY (education_level_id) REFERENCES education_levels (id)</text>
+<path fill="none" stroke="black" d="M668.59,-476.31C604.04,-445.69 734.89,-89.4 651.97,-89.4"/>
+<polygon fill="black" stroke="black" points="668.39,-476.27 677.25,-482.73 673.61,-477.37 677.85,-478.26 677.85,-478.26 677.85,-478.26 673.61,-477.37 679.11,-473.93 668.39,-476.27"/>
+<text text-anchor="start" x="685.5" y="-488.4" font-family="Arial" font-size="10.00">FOREIGN KEY (education_level_id) REFERENCES education_levels (id)</text>
 </g>
 </g>
 </svg>

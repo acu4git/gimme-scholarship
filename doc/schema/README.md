@@ -10,7 +10,7 @@
 | [scholarships](scholarships.md) | 13 |  | BASE TABLE |
 | [temporary_scholarships](temporary_scholarships.md) | 13 |  | BASE TABLE |
 | [user_favorites](user_favorites.md) | 3 |  | BASE TABLE |
-| [users](users.md) | 6 |  | BASE TABLE |
+| [users](users.md) | 8 |  | BASE TABLE |
 
 ## Relations
 

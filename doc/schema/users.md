@@ -7,10 +7,12 @@
 
 ```sql
 CREATE TABLE `users` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '表示名',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '表示名',
   `education_level_id` int NOT NULL,
+  `grade` int NOT NULL,
+  `accept_email` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -26,10 +28,12 @@ CREATE TABLE `users` (
 
 | Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
-| id | char(36) |  | false |  | [user_favorites](user_favorites.md) |  |  |
+| id | varchar(64) |  | false |  | [user_favorites](user_favorites.md) |  |  |
 | email | varchar(255) |  | false |  |  |  |  |
-| name | varchar(255) |  | false |  |  |  | 表示名 |
+| name | varchar(255) |  | true |  |  |  | 表示名 |
 | education_level_id | int |  | false |  |  | [education_levels](education_levels.md) |  |
+| grade | int |  | false |  |  |  |  |
+| accept_email | tinyint(1) | 0 | false |  |  |  |  |
 | created_at | timestamp | CURRENT_TIMESTAMP | false | DEFAULT_GENERATED |  |  |  |
 | updated_at | timestamp | CURRENT_TIMESTAMP | false | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |  |  |  |
 
