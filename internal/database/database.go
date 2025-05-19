@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	tlsKey = "rds"
+	tlsKey = "custom"
 
 	tableUsers              = "users"
 	tableScholarships       = "scholarships"
