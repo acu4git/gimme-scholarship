@@ -33,6 +33,13 @@ func main() {
 		AllowOrigins: origins,
 	}))
 
+	// jwt auth
+	skipPaths := []string{
+		"/scholarships",
+	}
+	auth := handler.NewAuth(skipPaths)
+	e.Use(auth.ClerkJWTMiddleware())
+
 	// Injection
 	repository, err := service.CreateRepository()
 	if err != nil {
@@ -47,4 +54,5 @@ func main() {
 
 func registerRoutes(router *echo.Echo, handler *handler.APIHandler) {
 	router.GET("/scholarships", handler.GetScholarships)
+	router.POST("/users", handler.PostUser)
 }
