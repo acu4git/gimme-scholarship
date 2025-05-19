@@ -6,8 +6,8 @@ type GetScholarshipInput struct {
 }
 
 type PostUserInput struct {
-	Email       string `json:"email"`
-	Grade       int    `json:"grade"`
-	Level       string `json:"level"`
-	AcceptEmail bool   `json:"accept_email"`
+	Email       string `form:"email"`
+	Grade       int    `form:"grade"`
+	Level       string `form:"level"`
+	AcceptEmail bool   `form:"accept_email"`
 }
