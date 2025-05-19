@@ -8,12 +8,18 @@ type educationLevel struct {
 }
 
 type user struct {
-	id               string    `db:"id"`
+	ID               string    `db:"id"`
 	Email            string    `db:"email"`
-	Name             string    `db:"name"`
+	Name             *string   `db:"name"`
 	EducationLevelID int64     `db:"education_level_id"`
+	Grade            int64     `db:"grade"`
+	AcceptEmail      bool      `db:"accept_email"`
 	CreatedAt        time.Time `db:"created_at"`
 	UpdatedAt        time.Time `db:"updated_at"`
+}
+
+func (u user) columns() []string {
+	return []string{"id", "email", "education_level_id", "grade", "accept_email"}
 }
 
 type scholarship struct {
