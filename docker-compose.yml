@@ -13,6 +13,21 @@ services:
     networks:
       - gs-net
 
+  fetch:
+    build:
+      context: ./cmd/scraping
+      args:
+        PYTHON_VERSION: 3.12
+    container_name: local_fetch
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+    restart: on-failure
+    networks:
+      - gs-net
+
 networks:
   gs-net:
     name: gs-net
