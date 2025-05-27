@@ -1,7 +1,9 @@
-PWD				:= $(shell pwd)
-OS				:= $(shell uname -s | tr '[:upper:]' '[:lower:]')
-ARCH			:= $(shell uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')
-DB_PORT		:= 3308
+PWD				 		 := $(shell pwd)
+OS				 		 := $(shell uname -s | tr '[:upper:]' '[:lower:]')
+ARCH			 		 := $(shell uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')
+DB_PORT		 		 := 3308
+GO_VERSION 		 := $(shell cat .go-version)
+PYTHON_VERSION := $(shell cat .python-version)
 
 init/tools: tbls/install sql-migrate/install
 
@@ -17,8 +19,9 @@ sql-migrate/install:
 	fi
 	sql-migrate --version
 
-database/init: database/up sleep docker/mysql/migrate
+database/init: database/up sleep docker/mysql/migrate 
 	- mysql -h 127.0.0.1 -P $(DB_PORT) -uroot -proot gimme_scholarship < seeds/seed.sql
+	- docker compose up --build fetch
 
 database/up:
 	docker compose up -d
@@ -31,6 +34,21 @@ sleep:
 
 docker/mysql/migrate:
 	sql-migrate up -env="development"
+
+docker/api/build:
+	docker build -t gimme-scholarship -f './cmd/api/Dockerfile' . --build-arg GO_VERSION=$(GO_VERSION)
+
+docker/migrate/build:
+	docker build -t gimme-scholarship-migrate -f './cmd/migrate/Dockerfile' . --build-arg GO_VERSION=$(GO_VERSION)
+
+docker/task/build:
+	docker build -t gimme-scholarship-task -f './cmd/task/Dockerfile' . --build-arg GO_VERSION=$(GO_VERSION)
+
+docker/scraping/build:
+	docker build -t gimme-scholarship-scraping -f './cmd/scraping/Dockerfile' ./cmd/scraping --build-arg PYTHON_VERSION=$(PYTHON_VERSION)
+
+docker/scraping/run:
+	docker compose up fetch
 
 gen/tbls:
 	tbls doc --rm-dist
