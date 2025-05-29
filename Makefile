@@ -44,10 +44,10 @@ docker/migrate/build:
 docker/task/build:
 	docker build -t gimme-scholarship-task -f './cmd/task/Dockerfile' . --build-arg GO_VERSION=$(GO_VERSION)
 
-docker/scraping/build:
-	docker build -t gimme-scholarship-scraping -f './cmd/scraping/Dockerfile' ./cmd/scraping --build-arg PYTHON_VERSION=$(PYTHON_VERSION)
+docker/fetch/build:
+	docker build -t gimme-scholarship-fetch -f './cmd/fetch/Dockerfile' ./cmd/fetch --build-arg PYTHON_VERSION=$(PYTHON_VERSION)
 
-docker/scraping/run:
+docker/fetch/run:
 	docker compose up fetch
 
 gen/tbls:
