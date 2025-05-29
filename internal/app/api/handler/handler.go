@@ -18,6 +18,12 @@ func NewAPIHandler(repository repository.Repository) *APIHandler {
 	}
 }
 
+func (h *APIHandler) HealthCheck(c echo.Context) error {
+	return c.JSON(http.StatusOK, map[string]any{
+		"message": "Nice deeeeesu",
+	})
+}
+
 func (h *APIHandler) PostUser(c echo.Context) error {
 	param := PostUserInput{}
 	if err := c.Bind(&param); err != nil {

@@ -55,4 +55,6 @@ func main() {
 func registerRoutes(router *echo.Echo, handler *handler.APIHandler) {
 	router.GET("/scholarships", handler.GetScholarships)
 	router.POST("/users", handler.PostUser)
+
+	router.GET("/health", handler.HealthCheck)
 }
