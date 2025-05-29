@@ -35,6 +35,7 @@ func main() {
 
 	// jwt auth
 	skipPaths := []string{
+		"/health",
 		"/scholarships",
 	}
 	auth := handler.NewAuth(skipPaths)
