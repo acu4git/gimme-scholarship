@@ -15,7 +15,7 @@ services:
 
   fetch:
     build:
-      context: ./cmd/scraping
+      context: ./cmd/fetch
       args:
         PYTHON_VERSION: 3.12
     container_name: local_fetch
