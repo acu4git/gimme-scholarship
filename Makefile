@@ -21,7 +21,7 @@ sql-migrate/install:
 
 database/init: database/up sleep docker/mysql/migrate 
 	- mysql -h 127.0.0.1 -P $(DB_PORT) -uroot -proot gimme_scholarship < seeds/seed.sql
-	- docker compose up --build fetch
+	- docker compose up fetch
 
 database/up:
 	docker compose up -d
