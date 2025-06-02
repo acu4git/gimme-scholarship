@@ -19,9 +19,10 @@ sql-migrate/install:
 	fi
 	sql-migrate --version
 
+base/init: database/init docker/fetch/run docker/api/run
+
 database/init: database/up sleep docker/mysql/migrate 
 	- mysql -h 127.0.0.1 -P $(DB_PORT) -uroot -proot gimme_scholarship < seeds/seed.sql
-	- docker compose up --build fetch
 
 database/up:
 	docker compose up -d
@@ -53,8 +54,8 @@ docker/api/run: docker/api/build
 docker/api/stop:
 	docker stop gimme-scholarship-api
 
-docker/fetch/run:
-	docker compose up --build fetch
+docker/fetch/run: docker/fetch/build
+	docker run --name=gimme-scholarship-fetch --net=gs-net -e DB_HOST=db -e DB_PORT=3306 gimme-scholarship-fetch
 
 gen/tbls:
 	tbls doc --rm-dist
