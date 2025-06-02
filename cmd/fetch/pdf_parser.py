@@ -104,8 +104,9 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
                 else:
                     row_data["申請期日"] = date.max
 
-                # print(row_data)
-                result.append(row_data)
+                # 申請期日切れのものもPDFに含まれているので除外
+                if date.today() < row_data["申請期日"]:
+                    result.append(row_data)
 
             if flag:
                 break
