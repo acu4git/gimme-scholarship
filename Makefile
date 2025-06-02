@@ -48,7 +48,7 @@ docker/fetch/build:
 	docker build -t gimme-scholarship-fetch -f './cmd/fetch/Dockerfile' ./cmd/fetch --build-arg PYTHON_VERSION=$(PYTHON_VERSION)
 
 docker/fetch/run:
-	docker compose up fetch
+	docker compose up --build fetch
 
 gen/tbls:
 	tbls doc --rm-dist
