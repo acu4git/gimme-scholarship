@@ -36,7 +36,7 @@ docker/mysql/migrate:
 	sql-migrate up -env="development"
 
 docker/api/build:
-	docker build -t gimme-scholarship -f './cmd/api/Dockerfile' . --build-arg GO_VERSION=$(GO_VERSION)
+	docker build -t gimme-scholarship-api -f './cmd/api/Dockerfile' . --build-arg GO_VERSION=$(GO_VERSION)
 
 docker/migrate/build:
 	docker build -t gimme-scholarship-migrate -f './cmd/migrate/Dockerfile' . --build-arg GO_VERSION=$(GO_VERSION)
