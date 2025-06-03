@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      ["cmd/api/Dockerfile", "cmd/migrate/Dockerfile", "cmd/fetch/Dockerfile"]
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
     branches:
