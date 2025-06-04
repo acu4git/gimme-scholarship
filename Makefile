@@ -49,17 +49,10 @@ docker/fetch/build:
 	docker build -t gimme-scholarship-fetch -f './cmd/fetch/Dockerfile' ./cmd/fetch --build-arg PYTHON_VERSION=$(PYTHON_VERSION)
 
 docker/api/run: docker/api/build
-	docker run --name=gimme-scholarship-api -p 8080:8080 --net=gs-net -e DB_HOST=db -e DB_PORT=3306 gimme-scholarship-api
-
-docker/api/down:
-	docker stop gimme-scholarship-api
-	docker container rm gimme-scholarship-api
+	docker run -p 8080:8080 --net=gs-net -e DB_HOST=db -e DB_PORT=3306 gimme-scholarship-api
 
 docker/fetch/run: docker/fetch/build
-	docker run --name=gimme-scholarship-fetch --net=gs-net -e DB_HOST=db -e DB_PORT=3306 gimme-scholarship-fetch
-
-docker/fetch/down:
-	docker container rm gimme-scholarship-fetch
+	docker run --net=gs-net -e DB_HOST=db -e DB_PORT=3306 gimme-scholarship-fetch
 
 gen/tbls:
 	tbls doc --rm-dist
