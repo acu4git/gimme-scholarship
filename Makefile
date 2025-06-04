@@ -51,11 +51,15 @@ docker/fetch/build:
 docker/api/run: docker/api/build
 	docker run --name=gimme-scholarship-api -p 8080:8080 --net=gs-net -e DB_HOST=db -e DB_PORT=3306 gimme-scholarship-api
 
-docker/api/stop:
+docker/api/down:
 	docker stop gimme-scholarship-api
+	docker container rm gimme-scholarship-api
 
 docker/fetch/run: docker/fetch/build
 	docker run --name=gimme-scholarship-fetch --net=gs-net -e DB_HOST=db -e DB_PORT=3306 gimme-scholarship-fetch
+
+docker/fetch/down:
+	docker container rm gimme-scholarship-fetch
 
 gen/tbls:
 	tbls doc --rm-dist
