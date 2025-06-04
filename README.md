@@ -23,6 +23,10 @@ AWS を採用しました．リソースが豊富であり，今回実装する�
 
 ![gs-architecture-ver2](クレクレ奨学金_aws02.png)
 
+# ER 図
+
+![Entity Relationship Diagram](doc/schema/schema.svg)
+
 # 機能
 
 ## api
