@@ -8,7 +8,7 @@
 ```sql
 CREATE TABLE `user_favorites` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` char(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `scholarship_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`,`scholarship_id`),
@@ -25,7 +25,7 @@ CREATE TABLE `user_favorites` (
 | Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
 | id | int |  | false | auto_increment |  |  |  |
-| user_id | char(36) |  | false |  |  | [users](users.md) |  |
+| user_id | char(64) |  | false |  |  | [users](users.md) |  |
 | scholarship_id | int |  | false |  |  | [scholarships](scholarships.md) |  |
 
 ## Constraints

@@ -180,7 +180,7 @@
 <text text-anchor="start" x="636.81" y="-1049" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
 <polygon fill="none" stroke="black" points="615.02,-1006 615.02,-1036.8 855.47,-1036.8 855.47,-1006 615.02,-1006"/>
 <text text-anchor="start" x="622.02" y="-1018.2" font-family="Arial" font-size="14.00">user_id </text>
-<text text-anchor="start" x="671.83" y="-1018.2" font-family="Arial" font-size="14.00" fill="#666666">[char(36)]</text>
+<text text-anchor="start" x="671.83" y="-1018.2" font-family="Arial" font-size="14.00" fill="#666666">[char(64)]</text>
 <polygon fill="none" stroke="black" points="615.02,-975.2 615.02,-1006 855.47,-1006 855.47,-975.2 615.02,-975.2"/>
 <text text-anchor="start" x="622.02" y="-987.4" font-family="Arial" font-size="14.00">scholarship_id </text>
 <text text-anchor="start" x="715.41" y="-987.4" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>

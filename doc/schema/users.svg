@@ -78,7 +78,7 @@
 <text text-anchor="start" x="74.48" y="-747" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
 <polygon fill="none" stroke="black" points="52.7,-704 52.7,-734.8 293.15,-734.8 293.15,-704 52.7,-704"/>
 <text text-anchor="start" x="59.7" y="-716.2" font-family="Arial" font-size="14.00">user_id </text>
-<text text-anchor="start" x="109.5" y="-716.2" font-family="Arial" font-size="14.00" fill="#666666">[char(36)]</text>
+<text text-anchor="start" x="109.5" y="-716.2" font-family="Arial" font-size="14.00" fill="#666666">[char(64)]</text>
 <polygon fill="none" stroke="black" points="52.7,-673.2 52.7,-704 293.15,-704 293.15,-673.2 52.7,-673.2"/>
 <text text-anchor="start" x="59.7" y="-685.4" font-family="Arial" font-size="14.00">scholarship_id </text>
 <text text-anchor="start" x="153.08" y="-685.4" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>

@@ -22,7 +22,7 @@
 <text text-anchor="start" x="262.94" y="-678.4" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
 <polygon fill="none" stroke="black" points="241.16,-635.4 241.16,-666.2 481.61,-666.2 481.61,-635.4 241.16,-635.4"/>
 <text text-anchor="start" x="248.16" y="-647.6" font-family="Arial" font-size="14.00">user_id </text>
-<text text-anchor="start" x="297.96" y="-647.6" font-family="Arial" font-size="14.00" fill="#666666">[char(36)]</text>
+<text text-anchor="start" x="297.96" y="-647.6" font-family="Arial" font-size="14.00" fill="#666666">[char(64)]</text>
 <polygon fill="none" stroke="black" points="241.16,-604.6 241.16,-635.4 481.61,-635.4 481.61,-604.6 241.16,-604.6"/>
 <text text-anchor="start" x="248.16" y="-616.8" font-family="Arial" font-size="14.00">scholarship_id </text>
 <text text-anchor="start" x="341.54" y="-616.8" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>

@@ -96,7 +96,7 @@
 <text text-anchor="start" x="446.49" y="-681.4" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
 <polygon fill="none" stroke="black" points="424.7,-638.4 424.7,-669.2 665.15,-669.2 665.15,-638.4 424.7,-638.4"/>
 <text text-anchor="start" x="431.7" y="-650.6" font-family="Arial" font-size="14.00">user_id </text>
-<text text-anchor="start" x="481.51" y="-650.6" font-family="Arial" font-size="14.00" fill="#666666">[char(36)]</text>
+<text text-anchor="start" x="481.51" y="-650.6" font-family="Arial" font-size="14.00" fill="#666666">[char(64)]</text>
 <polygon fill="none" stroke="black" points="424.7,-607.6 424.7,-638.4 665.15,-638.4 665.15,-607.6 424.7,-607.6"/>
 <text text-anchor="start" x="431.7" y="-619.8" font-family="Arial" font-size="14.00">scholarship_id </text>
 <text text-anchor="start" x="525.09" y="-619.8" font-family="Arial" font-size="14.00" fill="#666666">[int]</text>
