@@ -38,8 +38,12 @@ func main() {
 		"/health",
 		"/scholarships",
 	}
-	auth := handler.NewAuth(skipPaths)
+	optionalPaths := []string{
+		"/scholarships",
+	}
+	auth := handler.NewAuth(skipPaths, optionalPaths)
 	e.Use(auth.ClerkJWTMiddleware())
+	e.Use(auth.OptionalJWTMiddleware()) // optional認証
 
 	// Injection
 	repository, err := service.CreateRepository()
@@ -55,6 +59,9 @@ func main() {
 
 func registerRoutes(router *echo.Echo, handler *handler.APIHandler) {
 	router.GET("/scholarships", handler.GetScholarships)
+	router.POST("/scholarships/:id/favorite", handler.PostFavoriteScholarship)
+	router.DELETE("/scholarships/:id/favorite", handler.DeleteFavoriteScholarship)
+
 	router.POST("/users", handler.PostUser)
 
 	router.GET("/health", handler.HealthCheck)
