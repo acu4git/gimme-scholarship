@@ -16,11 +16,12 @@ type scholarshipOutput struct {
 	ContactPoint   string   `json:"contact_point"`
 	Remark         string   `json:"remark"`
 	PostingDate    string   `json:"posting_date"`
+	IsFavorite     bool     `json:"is_favorite"`
 }
 
 type GetScholarshipsOutput []scholarshipOutput
 
-func toGetScholarshipsOutput(scholarships []model.Scholarship) GetScholarshipsOutput {
+func toGetScholarshipsOutput(scholarships []model.Scholarship, favoriteMap map[int64]bool) GetScholarshipsOutput {
 	res := make(GetScholarshipsOutput, 0)
 	for _, s := range scholarships {
 		res = append(res, scholarshipOutput{
@@ -37,6 +38,7 @@ func toGetScholarshipsOutput(scholarships []model.Scholarship) GetScholarshipsOu
 			ContactPoint:   s.ContactPoint,
 			Remark:         s.Remark,
 			PostingDate:    s.PostingDate,
+			IsFavorite:     favoriteMap[s.ID],
 		})
 	}
 	return res
