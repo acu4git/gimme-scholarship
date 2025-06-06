@@ -49,6 +49,14 @@ func (h *APIHandler) PostUser(c echo.Context) error {
 }
 
 func (h *APIHandler) GetScholarships(c echo.Context) error {
+	var pUserID *string
+	userID, ok := c.Get(userIDKey).(string)
+	if !ok || userID == "" {
+		pUserID = nil
+	} else {
+		pUserID = &userID
+	}
+
 	param := GetScholarshipInput{}
 	if err := c.Bind(&param); err != nil {
 		c.JSON(http.StatusBadRequest, map[string]any{
@@ -56,7 +64,7 @@ func (h *APIHandler) GetScholarships(c echo.Context) error {
 		})
 	}
 
-	scholarships, err := h.repository.GetScholarships(repository.FilterOption{Target: param.Target, Type: param.Type})
+	scholarships, err := h.repository.GetScholarships(repository.FilterOption{UserID: pUserID, Target: param.Target, Type: param.Type})
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]any{
 			"error": err.Error(),
