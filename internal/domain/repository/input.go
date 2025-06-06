@@ -15,6 +15,7 @@ type UserInput struct {
 }
 
 type UserFavoriteInput struct {
+	Action        string
 	UserID        string
 	ScholarshipID int64
 }
