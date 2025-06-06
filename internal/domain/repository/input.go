@@ -14,6 +14,9 @@ type UserInput struct {
 	AcceptEmail bool
 }
 
+// At Mode field,
+// specify "REGISTER" if you want to register favorite scholarship,
+// specify "DELETE" if you want to delete.
 type UserFavoriteInput struct {
 	Mode          string
 	UserID        string
