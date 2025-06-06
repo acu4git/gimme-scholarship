@@ -21,6 +21,7 @@ const (
 	tableScholarships       = "scholarships"
 	tableScholarshipTargets = "scholarship_targets"
 	tableEducationLevels    = "education_levels"
+	tableUserFavorites      = "user_favorites"
 )
 
 var (
@@ -180,4 +181,32 @@ func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Sch
 	})
 
 	return res, nil
+}
+
+func (db *Database) UserFavoriteAction(input repository.UserFavoriteInput) error {
+	tx, err := db.sess.Begin()
+	defer tx.RollbackUnlessCommitted()
+	if err != nil {
+		return err
+	}
+
+	switch input.Mode {
+	case "REGISTER":
+		if _, err := tx.InsertInto(tableUserFavorites).
+			Pair("user_id", input.UserID).
+			Pair("scholarship_id", input.ScholarshipID).
+			Exec(); err != nil {
+			return err
+		}
+	case "DELETE":
+		if _, err := tx.DeleteFrom(tableUserFavorites).
+			Where("user_id = ? AND scholarship_id = ?", input.UserID, input.ScholarshipID).
+			Exec(); err != nil {
+			return err
+		}
+	default:
+		return fmt.Errorf("error: invalid action mode (%s)", input.Mode)
+	}
+
+	return tx.Commit()
 }
