@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/acu4git/gimme-scholarship/internal/domain/repository"
 	"github.com/labstack/echo/v4"
@@ -71,4 +72,68 @@ func (h *APIHandler) GetScholarships(c echo.Context) error {
 		})
 	}
 	return c.JSONPretty(http.StatusOK, toGetScholarshipsOutput(scholarships), prettyIndent)
+}
+
+func (h *APIHandler) PostFavoriteScholarship(c echo.Context) error {
+	_id := c.Param("id")
+	scholarshipID, err := strconv.ParseInt(_id, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": fmt.Sprintf("failed to parse scholarship id (%s)", _id),
+		})
+	}
+
+	userID, ok := c.Get(userIDKey).(string)
+	if !ok || userID == "" {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": fmt.Sprintf("failed to c.Get() %v", c.Get(userIDKey)),
+		})
+	}
+
+	input := repository.UserFavoriteInput{
+		Mode:          "REGISTER",
+		UserID:        userID,
+		ScholarshipID: scholarshipID,
+	}
+
+	if err := h.repository.UserFavoriteAction(input); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]any{
+			"message": "failed to register favorite scholarship",
+			"error":   err,
+		})
+	}
+
+	return c.NoContent(http.StatusCreated)
+}
+
+func (h *APIHandler) DeleteFavoriteScholarship(c echo.Context) error {
+	_id := c.Param("id")
+	scholarshipID, err := strconv.ParseInt(_id, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": fmt.Sprintf("failed to parse scholarship id (%s)", _id),
+		})
+	}
+
+	userID, ok := c.Get(userIDKey).(string)
+	if !ok || userID == "" {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": fmt.Sprintf("failed to c.Get() %v", c.Get(userIDKey)),
+		})
+	}
+
+	input := repository.UserFavoriteInput{
+		Mode:          "DELETE",
+		UserID:        userID,
+		ScholarshipID: scholarshipID,
+	}
+
+	if err := h.repository.UserFavoriteAction(input); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]any{
+			"message": "failed to delete favorite scholarship",
+			"error":   err,
+		})
+	}
+
+	return c.NoContent(http.StatusCreated)
 }
