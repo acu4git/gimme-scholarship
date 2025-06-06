@@ -3,7 +3,9 @@ package handler
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -23,12 +25,14 @@ var (
 const jwksCacheDuration = 15 * time.Minute
 
 type Auth struct {
-	skipPaths []string
+	skipPaths     []string
+	optionalPaths []string
 }
 
-func NewAuth(skipPaths []string) *Auth {
+func NewAuth(skipPaths, optionalPaths []string) *Auth {
 	return &Auth{
-		skipPaths: skipPaths,
+		skipPaths:     skipPaths,
+		optionalPaths: optionalPaths,
 	}
 }
 
@@ -41,13 +45,41 @@ func (a *Auth) ClerkJWTMiddleware() echo.MiddlewareFunc {
 	})
 }
 
-func (a *Auth) Skipper(c echo.Context) bool {
-	for _, p := range a.skipPaths {
-		if ok := strings.HasPrefix(c.Path(), p); ok {
-			return true
+// Authorizationの有無でuserIDをセットするかどうか分ける
+func (a *Auth) OptionalJWTMiddleware() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			for _, p := range a.optionalPaths {
+				if !strings.HasPrefix(c.Path(), p) {
+					continue
+				}
+
+				authHeader := c.Request().Header.Get("Authorization")
+				if !strings.HasPrefix(authHeader, "Bearer ") {
+					log.Println("break at prefix check")
+					break
+				}
+
+				tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
+				jwks, err := getCachedJWKS(context.Background())
+				if err != nil {
+					log.Println("break at get JWKS")
+					break
+				}
+				if token, err := jwt.ParseString(tokenStr, jwt.WithKeySet(jwks), jwt.WithValidate(true)); err == nil {
+					sub := token.Subject()
+					c.Set(userIDKey, sub)
+					log.Println("set userID:", sub)
+				}
+
+			}
+			return next(c)
 		}
 	}
-	return false
+}
+
+func (a *Auth) Skipper(c echo.Context) bool {
+	return slices.Contains(a.skipPaths, c.Path())
 }
 
 func (a *Auth) Validator(tokenStr string, c echo.Context) (bool, error) {
@@ -63,6 +95,7 @@ func (a *Auth) Validator(tokenStr string, c echo.Context) (bool, error) {
 
 	sub := token.Subject()
 	c.Set(userIDKey, sub)
+	log.Println("set userID:", sub)
 
 	return true, nil
 }
