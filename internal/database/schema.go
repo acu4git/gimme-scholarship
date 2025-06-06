@@ -43,3 +43,9 @@ type scholarshipTarget struct {
 	ScholarshipID    int64 `db:"scholarship_id"`
 	EducationLevelID int64 `db:"education_level_id"`
 }
+
+type userFavorite struct {
+	ID            int64  `db:"id"`
+	UserID        string `db:"user_id"`
+	ScholarshipID int64  `db:"scholarship_id"`
+}
