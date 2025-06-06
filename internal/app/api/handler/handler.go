@@ -65,13 +65,13 @@ func (h *APIHandler) GetScholarships(c echo.Context) error {
 		})
 	}
 
-	scholarships, err := h.repository.GetScholarships(repository.FilterOption{UserID: pUserID, Target: param.Target, Type: param.Type})
+	scholarships, favoriteMap, err := h.repository.GetScholarships(repository.FilterOption{UserID: pUserID, Target: param.Target, Type: param.Type})
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]any{
 			"error": err.Error(),
 		})
 	}
-	return c.JSONPretty(http.StatusOK, toGetScholarshipsOutput(scholarships), prettyIndent)
+	return c.JSONPretty(http.StatusOK, toGetScholarshipsOutput(scholarships, favoriteMap), prettyIndent)
 }
 
 func (h *APIHandler) PostFavoriteScholarship(c echo.Context) error {
