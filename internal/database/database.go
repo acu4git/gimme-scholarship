@@ -124,15 +124,21 @@ func (db *Database) CreateUser(input repository.UserInput) error {
 	return tx.Commit()
 }
 
-func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Scholarship, error) {
-	res := make([]model.Scholarship, 0)
+func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Scholarship, map[int64]bool, error) {
+	scholarships := make([]model.Scholarship, 0)
+
+	tx, err := db.sess.Begin()
+	defer tx.RollbackUnlessCommitted()
+	if err != nil {
+		return nil, nil, err
+	}
 
 	type scholarshipWithTarget struct {
 		scholarship
 		Target string `db:"target"`
 	}
 	flat := make([]scholarshipWithTarget, 0)
-	stmt := db.sess.Select(fmt.Sprintf("%s.*, %s.name AS target", tableScholarships, tableEducationLevels)).
+	stmt := tx.Select(fmt.Sprintf("%s.*, %s.name AS target", tableScholarships, tableEducationLevels)).
 		From(tableScholarships).
 		Join(tableScholarshipTargets, fmt.Sprintf("%s.id = %s.scholarship_id", tableScholarships, tableScholarshipTargets)).
 		Join(tableEducationLevels, fmt.Sprintf("%s.id = %s.education_level_id", tableEducationLevels, tableScholarshipTargets))
@@ -146,10 +152,11 @@ func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Sch
 	}
 
 	if _, err := stmt.Load(&flat); err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	scholarshipMap := make(map[int64]*model.Scholarship)
+	favoriteMap := make(map[int64]bool)
 	for _, f := range flat {
 		s, ok := scholarshipMap[f.ID]
 		if !ok {
@@ -170,17 +177,33 @@ func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Sch
 			scholarshipMap[f.ID] = s
 		}
 		s.Targets = append(s.Targets, f.Target)
+		favoriteMap[f.ID] = false
 	}
 
 	for _, s := range scholarshipMap {
-		res = append(res, *s)
+		scholarships = append(scholarships, *s)
 	}
 
-	sort.Slice(res, func(i, j int) bool {
-		return res[i].ID < res[j].ID
+	sort.Slice(scholarships, func(i, j int) bool {
+		return scholarships[i].ID < scholarships[j].ID
 	})
 
-	return res, nil
+	if option.UserID != nil {
+		ufs := make([]userFavorite, 0)
+		if _, err := tx.Select("*").
+			From(tableUserFavorites).
+			Where("user_id = ?", option.UserID).
+			Load(&ufs); err != nil {
+			return nil, nil, err
+		}
+		for _, uf := range ufs {
+			favoriteMap[uf.ScholarshipID] = true
+		}
+	}
+
+	fmt.Println(favoriteMap)
+
+	return scholarships, favoriteMap, tx.Commit()
 }
 
 func (db *Database) UserFavoriteAction(input repository.UserFavoriteInput) error {
