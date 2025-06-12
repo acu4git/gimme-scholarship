@@ -4,6 +4,9 @@ from io import BytesIO
 import re
 from bs4 import BeautifulSoup
 from datetime import date
+import logging
+
+logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
 
 def is_white_background(cell_bbox, rects):
