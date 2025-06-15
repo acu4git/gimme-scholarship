@@ -201,8 +201,6 @@ func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Sch
 		}
 	}
 
-	fmt.Println(favoriteMap)
-
 	return scholarships, favoriteMap, tx.Commit()
 }
 
