@@ -151,7 +151,7 @@ func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Sch
 		stmt = stmt.Where(fmt.Sprintf("%s.type_detail LIKE ?", tableScholarships), fmt.Sprintf("[%s]%%", option.Type))
 	}
 
-	if _, err := stmt.Load(&flat); err != nil {
+	if _, err := stmt.OrderAsc(fmt.Sprintf("%s.deadline", tableScholarships)).Load(&flat); err != nil {
 		return nil, nil, err
 	}
 
