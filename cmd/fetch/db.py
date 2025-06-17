@@ -159,6 +159,7 @@ def upsert_scholarships(latest_scholarships: list[dict[str | None, str | None]])
 
         cursor.execute("DELETE FROM temporary_scholarships")
         conn.commit()
+        print("updated scholarships!")
     except mysql.connector.Error as e:
         conn.rollback()
         raise e
