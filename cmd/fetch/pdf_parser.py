@@ -3,7 +3,8 @@ import requests
 from io import BytesIO
 import re
 from bs4 import BeautifulSoup
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 import logging
 
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
@@ -53,6 +54,9 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
     pdf_url = pdf_links[0]
     res = requests.get(pdf_url)
     result: list[dict[str | None, str | None]] = []
+
+    jst = ZoneInfo("Asia/Tokyo")
+    jst_now = datetime.now(jst).date()
 
     # 無効な奨学金情報を見つけたらフラグを立てる
     flag = False
@@ -108,7 +112,7 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
                     row_data["申請期日"] = date.max
 
                 # 申請期日切れのものもPDFに含まれているので除外
-                if date.today() <= row_data["申請期日"]:
+                if jst_now <= row_data["申請期日"]:
                     result.append(row_data)
 
             if flag:
