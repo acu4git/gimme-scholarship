@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"log"
 
 	"github.com/acu4git/gimme-scholarship/internal/app/task"
+	"github.com/acu4git/gimme-scholarship/internal/infra/mailer"
 	"github.com/acu4git/gimme-scholarship/internal/service"
 )
 
@@ -24,7 +26,17 @@ func main() {
 
 	switch *taskName {
 	case notifyScholarshipDeadline:
-		executor := task.NewNotifyScholarshipDeadlineExecutor(repo)
+		ctx := context.Background()
+		from := "no-reply@kit-gimme-scholarship.com"
+		mailer, err := mailer.NewSESMailer(ctx, from)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		executor := task.NewNotifyScholarshipDeadlineExecutor(repo, mailer)
+		if err := executor.Exectute(); err != nil {
+			log.Fatal(err)
+		}
 	default:
 		log.Fatalf("invalid task name: %s", *taskName)
 	}
