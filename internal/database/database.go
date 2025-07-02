@@ -124,7 +124,7 @@ func (db *Database) CreateUser(input repository.UserInput) error {
 	return tx.Commit()
 }
 
-func (db *Database) GetScholarships(option repository.FilterOption) ([]model.Scholarship, map[int64]bool, error) {
+func (db *Database) FindScholarships(option repository.FilterOption) ([]model.Scholarship, map[int64]bool, error) {
 	scholarships := make([]model.Scholarship, 0)
 
 	tx, err := db.sess.Begin()
