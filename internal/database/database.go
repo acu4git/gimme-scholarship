@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"time"
 
 	"github.com/acu4git/gimme-scholarship/internal/domain/model"
 	"github.com/acu4git/gimme-scholarship/internal/domain/repository"
@@ -230,4 +231,55 @@ func (db *Database) UserFavoriteAction(input repository.UserFavoriteInput) error
 	}
 
 	return tx.Commit()
+}
+
+func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.Scholarship, error) {
+	jst, _ := time.LoadLocation("Asia/Tokyo")
+	now := time.Now().In(jst)
+	todayStart := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, jst)
+	deadlineDate := todayStart.AddDate(0, 0, 7)
+
+	results := make([]UserScholarshipNotification, 0)
+	tx, err := db.sess.Begin()
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err := tx.Select(
+		fmt.Sprintf("%s.id AS user_id", tableUsers),
+		fmt.Sprintf("%s.name AS user_name", tableUsers),
+		fmt.Sprintf("%s.email AS user_email", tableUsers),
+		fmt.Sprintf("%s.*", tableScholarships),
+	).
+		From(tableScholarships).
+		Join(tableUserFavorites, fmt.Sprintf("%s.id = %s.scholarship_id", tableScholarships, tableUserFavorites)).
+		Join(tableUsers, fmt.Sprintf("%s.id = %s.user_id", tableUsers, tableUserFavorites)).
+		Where(fmt.Sprintf("%s.deadline = ?", tableScholarships), deadlineDate).
+		Load(&results); err != nil {
+		return nil, err
+	}
+
+	// key: email address, value: scholarship info
+	userScholarships := make(map[string][]model.Scholarship)
+	for _, info := range results {
+		if _, exist := userScholarships[info.UserEmail]; !exist {
+			userScholarships[info.UserEmail] = make([]model.Scholarship, 0)
+		}
+		scholarship := model.Scholarship{
+			ID:             info.scholarship.ID,
+			Name:           info.scholarship.Name,
+			Address:        info.scholarship.Address,
+			TargetDetail:   info.scholarship.TargetDetail,
+			AmountDetail:   info.scholarship.AmountDetail,
+			TypeDetail:     info.scholarship.TypeDetail,
+			CapacityDetail: info.scholarship.CapacityDetail,
+			Deadline:       info.scholarship.Deadline.Format("2006-01-02"),
+			DeadlineDetail: info.scholarship.DeadlineDetail,
+			ContactPoint:   info.scholarship.ContactPoint,
+			Remark:         info.scholarship.Remark,
+		}
+		userScholarships[info.UserEmail] = append(userScholarships[info.UserEmail], scholarship)
+	}
+
+	return userScholarships, nil
 }
