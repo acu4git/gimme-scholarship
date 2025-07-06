@@ -11,3 +11,9 @@ type PostUserInput struct {
 	Level       string `form:"level"`
 	AcceptEmail bool   `form:"accept_email"`
 }
+
+type PutUserInput struct {
+	Grade       int    `form:"grade"`
+	Level       string `form:"level"`
+	AcceptEmail bool   `form:"accept_email"`
+}

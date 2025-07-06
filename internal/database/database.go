@@ -125,6 +125,32 @@ func (db *Database) CreateUser(input repository.UserInput) error {
 	return tx.Commit()
 }
 
+func (db *Database) UpdateUser(input repository.UserInput) error {
+	tx, err := db.sess.Begin()
+	defer tx.RollbackUnlessCommitted()
+	if err != nil {
+		return err
+	}
+
+	var el educationLevel
+	if err := tx.Select("*").
+		From(tableEducationLevels).
+		Where("name = ?", input.Level).LoadOne(&el); err != nil {
+		return err
+	}
+
+	if _, err := tx.Update(tableUsers).
+		Set("education_level_id", el.ID).
+		Set("grade", input.Grade).
+		Set("accept_email", input.AcceptEmail).
+		Where(dbr.Eq("id", input.ID)).
+		Exec(); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 func (db *Database) FindScholarships(option repository.FilterOption) ([]model.Scholarship, map[int64]bool, error) {
 	scholarships := make([]model.Scholarship, 0)
 

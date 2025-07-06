@@ -49,6 +49,30 @@ func (h *APIHandler) PostUser(c echo.Context) error {
 	return c.NoContent(http.StatusCreated)
 }
 
+func (h *APIHandler) PutUser(c echo.Context) error {
+	param := PutUserInput{}
+	if err := c.Bind(&param); err != nil {
+		c.JSON(http.StatusBadRequest, map[string]any{
+			"error": "failed to bind PutUserInput: " + err.Error(),
+		})
+	}
+
+	userID, ok := c.Get(userIDKey).(string)
+	if !ok || userID == "" {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": fmt.Sprintf("failed to c.Get() %v", c.Get(userIDKey)),
+		})
+	}
+
+	if err := h.repository.UpdateUser(repository.UserInput{ID: userID, Level: param.Level, Grade: int64(param.Grade), AcceptEmail: param.AcceptEmail}); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": "failed to update user: " + err.Error(),
+		})
+	}
+
+	return c.NoContent(http.StatusNoContent)
+}
+
 func (h *APIHandler) GetScholarships(c echo.Context) error {
 	var pUserID *string
 	userID, ok := c.Get(userIDKey).(string)
