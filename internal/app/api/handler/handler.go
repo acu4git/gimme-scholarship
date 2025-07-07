@@ -197,7 +197,7 @@ func (h *APIHandler) HandleClerkWebhook(c echo.Context) error {
 	}
 
 	// 検証
-	if err := wh.Verify(payload, headers); err == nil {
+	if err := wh.Verify(payload, headers); err != nil {
 		log.Println("failed to verify webhook:", err)
 		return c.JSON(http.StatusBadRequest, map[string]any{
 			"error": err.Error(),
