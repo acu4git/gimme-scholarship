@@ -37,6 +37,7 @@ func main() {
 	skipPaths := []string{
 		"/health",
 		"/scholarships",
+		"/webhooks/clerk/users",
 	}
 	optionalPaths := []string{
 		"/scholarships",
