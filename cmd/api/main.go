@@ -65,5 +65,7 @@ func registerRoutes(router *echo.Echo, handler *handler.APIHandler) {
 	router.POST("/users", handler.PostUser)
 	router.PUT("/users", handler.PutUser)
 
+	router.POST("/webhooks/clerk/users", handler.HandleClerkWebhook)
+
 	router.GET("/health", handler.HealthCheck)
 }

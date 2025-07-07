@@ -151,6 +151,14 @@ func (db *Database) UpdateUser(input repository.UserInput) error {
 	return tx.Commit()
 }
 
+func (db *Database) DeleteUser(id string) error {
+	_, err := db.sess.DeleteFrom(tableUsers).
+		Where(dbr.Eq("id", id)).
+		Exec()
+
+	return err
+}
+
 func (db *Database) FindScholarships(option repository.FilterOption) ([]model.Scholarship, map[int64]bool, error) {
 	scholarships := make([]model.Scholarship, 0)
 

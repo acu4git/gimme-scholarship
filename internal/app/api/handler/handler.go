@@ -1,12 +1,17 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/acu4git/gimme-scholarship/internal/domain/repository"
 	"github.com/labstack/echo/v4"
+	svix "github.com/svix/svix-webhooks/go"
 )
 
 type APIHandler struct {
@@ -160,4 +165,75 @@ func (h *APIHandler) DeleteFavoriteScholarship(c echo.Context) error {
 	}
 
 	return c.NoContent(http.StatusCreated)
+}
+
+func (h *APIHandler) HandleClerkWebhook(c echo.Context) error {
+	// Webhook secretの取得
+	secret := os.Getenv("CLERK_WEBHOOK_SECRET_KEY")
+	if secret == "" {
+		log.Println("CLERK_WEBHOOK_SECRET_KEY is not set")
+		return c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": "CLERK_WEBHOOK_SECRET_KEY is not set",
+		})
+	}
+
+	// Webhookインスタンス作成
+	wh, err := svix.NewWebhook(secret)
+	if err != nil {
+		log.Println("failed to create webhook instance:", err)
+		return c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": err.Error(),
+		})
+	}
+
+	// リクエストヘッダーとボディの取得
+	headers := c.Request().Header
+	payload, err := io.ReadAll(c.Request().Body)
+	if err != nil {
+		log.Println("failed to read body")
+		return c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": err.Error(),
+		})
+	}
+
+	// 検証
+	if err := wh.Verify(payload, headers); err == nil {
+		log.Println("failed to verify webhook:", err)
+		return c.JSON(http.StatusBadRequest, map[string]any{
+			"error": err.Error(),
+		})
+	}
+
+	// パース処理
+	var event ClerkWebhookEvent
+	if err := json.Unmarshal(payload, &event); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]any{
+			"error": err.Error(),
+		})
+	}
+	var clerkUser ClerkUser
+	json.Unmarshal(event.Data, &clerkUser)
+
+	// イベント毎の処理
+	switch event.Type {
+	case "user.created":
+		log.Println("event type: user.created")
+	case "user.deleted":
+		log.Println("event type: user.deleted")
+		if err := h.repository.DeleteUser(clerkUser.ID); err != nil {
+			log.Println(err)
+			return c.JSON(http.StatusInternalServerError, map[string]any{
+				"error": err.Error(),
+			})
+		}
+	case "user.updated":
+		log.Println("event type: user.updated")
+	default:
+		log.Println("invalid event type")
+		c.JSON(http.StatusBadRequest, map[string]any{
+			"error": "invalid event type",
+		})
+	}
+
+	return c.JSON(http.StatusNoContent, nil)
 }
