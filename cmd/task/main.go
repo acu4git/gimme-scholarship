@@ -34,7 +34,7 @@ func main() {
 		}
 
 		executor := task.NewNotifyScholarshipDeadlineExecutor(repo, mailer)
-		if err := executor.Exectute(); err != nil {
+		if err := executor.Execute(); err != nil {
 			log.Fatal(err)
 		}
 	default:
