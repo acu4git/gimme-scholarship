@@ -1,0 +1,5 @@
+{{define "footer"}}
+---
+クレクレ奨学金
+https://example.com
+{{end}}
