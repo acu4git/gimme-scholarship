@@ -9,7 +9,12 @@ on:
     branches:
       - "main"
     paths:
-      ["cmd/api/Dockerfile", "cmd/migrate/Dockerfile", "cmd/fetch/Dockerfile"]
+      [
+        "cmd/api/Dockerfile",
+        "cmd/migrate/Dockerfile",
+        "cmd/fetch/Dockerfile",
+        "cmd/task/Dockerfile",
+      ]
   workflow_dispatch:
 
 permissions:
@@ -42,7 +47,7 @@ jobs:
 
       - name: Build and Push Docker Image to ECR
         env:
-          APP_NAMES: "api migrate fetch"
+          APP_NAMES: "api migrate fetch task"
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
