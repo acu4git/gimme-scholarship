@@ -277,7 +277,7 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 	todayStart := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, jst)
 	deadlineDate := todayStart.AddDate(0, 0, 7)
 
-	// log.Println("deadlineDate:", deadlineDate)
+	log.Println("deadlineDate:", deadlineDate)
 
 	results := make([]UserScholarshipNotification, 0)
 	tx, err := db.sess.Begin()
