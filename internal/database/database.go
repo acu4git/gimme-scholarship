@@ -65,6 +65,9 @@ func NewDatabase() (*Database, error) {
 		log.Println("failed at dbr.Open()")
 		return nil, err
 	}
+	conn.DB.SetConnMaxLifetime(time.Minute * 3)
+	conn.DB.SetMaxOpenConns(10)
+	conn.DB.SetMaxIdleConns(10)
 
 	sess := conn.NewSession(nil)
 
