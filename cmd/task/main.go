@@ -19,6 +19,8 @@ const (
 )
 
 func main() {
+	flag.Parse()
+
 	repo, err := service.CreateRepository()
 	if err != nil {
 		log.Fatal(err)
