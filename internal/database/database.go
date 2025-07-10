@@ -3,6 +3,7 @@ package database
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -276,6 +277,8 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 	todayStart := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, jst)
 	deadlineDate := todayStart.AddDate(0, 0, 7)
 
+	log.Println("deadlineDate:", deadlineDate)
+
 	results := make([]UserScholarshipNotification, 0)
 	tx, err := db.sess.Begin()
 	defer tx.RollbackUnlessCommitted()
@@ -294,6 +297,9 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 		Join(tableUsers, fmt.Sprintf("%s.id = %s.user_id", tableUsers, tableUserFavorites)).
 		Where(fmt.Sprintf("%s.deadline = ?", tableScholarships), deadlineDate).
 		Load(&results); err != nil {
+		if errors.Is(err, dbr.ErrNotFound) {
+			return nil, errors.New("error: not found at FindUsersToNotifyForUpcomingDeadlines")
+		}
 		return nil, err
 	}
 
