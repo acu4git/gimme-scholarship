@@ -278,6 +278,7 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 
 	results := make([]UserScholarshipNotification, 0)
 	tx, err := db.sess.Begin()
+	defer tx.RollbackUnlessCommitted()
 	if err != nil {
 		return nil, err
 	}
@@ -318,5 +319,5 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 		userScholarships[info.UserEmail] = append(userScholarships[info.UserEmail], scholarship)
 	}
 
-	return userScholarships, nil
+	return userScholarships, tx.Commit()
 }
