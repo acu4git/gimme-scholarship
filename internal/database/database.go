@@ -307,6 +307,8 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 		return nil, err
 	}
 
+	log.Println("results:", results)
+
 	// key: email address, value: scholarship info
 	userScholarships := make(map[string][]model.Scholarship)
 	for _, info := range results {
