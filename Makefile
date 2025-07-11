@@ -19,6 +19,9 @@ sql-migrate/install:
 	fi
 	sql-migrate --version
 
+test:
+	@FAKE_DB_USER=root FAKE_DB_PASSWORD=root FAKE_DB_PORT=$(DB_PORT) FAKE_DB_NAME=gimme_scholarship_test go test -p 1 -cover $(shell go list ./... |grep -v 'vendor') -coverprofile=coverage.out
+
 base/init: database/init docker/fetch/run docker/api/run
 
 database/init: database/up sleep docker/mysql/migrate 
