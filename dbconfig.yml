@@ -2,3 +2,9 @@ development:
   dialect: mysql
   dir: migrations
   datasource: root:root@tcp(localhost:3308)/gimme_scholarship?parseTime=True
+
+test:
+  dialect: mysql
+  datasource: root:root@tcp(127.0.0.1:3308)/gimme_scholarship_test?parseTime=true
+  dir: migrations
+  table: migrations
