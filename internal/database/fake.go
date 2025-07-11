@@ -67,7 +67,7 @@ func (f *FakeDatabase) connect() {
 	f.sess = sess
 }
 
-func (f *FakeDatabase) Close() {
+func (f *FakeDatabase) TruncateTables() {
 	if err := f.sess.Close(); err != nil {
 		panic(err)
 	}
