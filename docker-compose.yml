@@ -13,6 +13,19 @@ services:
     networks:
       - gs-net
 
+  testdb:
+    build: ./docker/mysql
+    container_name: gs-testdb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gimme_scholarship_test
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3308:3306"
+    networks:
+      - gs-net
+
   fetch:
     build:
       context: ./cmd/fetch
