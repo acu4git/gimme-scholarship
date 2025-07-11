@@ -23,6 +23,7 @@ base/init: database/init docker/fetch/run docker/api/run
 
 database/init: database/up sleep docker/mysql/migrate 
 	- mysql -h 127.0.0.1 -P $(DB_PORT) -uroot -proot gimme_scholarship < seeds/seed.sql
+	- mysql -h 127.0.0.1 -P $(DB_PORT) -uroot -proot gimme_scholarship_test < seeds/sees.sql
 
 database/up:
 	docker compose up -d
@@ -35,6 +36,7 @@ sleep:
 
 docker/mysql/migrate:
 	sql-migrate up -env="development"
+	sql-migrate up -env="test"
 
 docker/api/build:
 	docker build -t gimme-scholarship-api -f './cmd/api/Dockerfile' . --build-arg GO_VERSION=$(GO_VERSION)
