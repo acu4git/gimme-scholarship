@@ -2,6 +2,7 @@ PWD				 		 := $(shell pwd)
 OS				 		 := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ARCH			 		 := $(shell uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')
 DB_PORT		 		 := 3308
+TEST_DB_PORT	 := 3309
 GO_VERSION 		 := $(shell cat .go-version)
 PYTHON_VERSION := $(shell cat .python-version)
 
@@ -20,13 +21,13 @@ sql-migrate/install:
 	sql-migrate --version
 
 test:
-	@FAKE_DB_USER=root FAKE_DB_PASSWORD=root FAKE_DB_PORT=$(DB_PORT) FAKE_DB_NAME=gimme_scholarship_test go test -p 1 -cover $(shell go list ./... |grep -v 'vendor') -coverprofile=coverage.out
+	@FAKE_DB_USER=root FAKE_DB_PASSWORD=root FAKE_DB_HOST=localhost FAKE_DB_PORT=$(TEST_DB_PORT) FAKE_DB_NAME=gimme_scholarship_test go test -p 1 -cover $(shell go list ./... |grep -v 'vendor') -coverprofile=coverage.out
 
 base/init: database/init docker/fetch/run docker/api/run
 
 database/init: database/up sleep docker/mysql/migrate 
 	- mysql -h 127.0.0.1 -P $(DB_PORT) -uroot -proot gimme_scholarship < seeds/seed.sql
-	- mysql -h 127.0.0.1 -P $(DB_PORT) -uroot -proot gimme_scholarship_test < seeds/seed.sql
+	- mysql -h 127.0.0.1 -P $(TEST_DB_PORT) -uroot -proot gimme_scholarship_test < seeds/seed.sql
 
 database/up:
 	docker compose up -d
