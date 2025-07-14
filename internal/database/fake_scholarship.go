@@ -8,11 +8,11 @@ import (
 
 func (fdb *FakeDatabase) TestInitScholarships() error {
 	data := []model.Scholarship{
-		{1, "テスト奨学金", "URL: https://example.com", []string{"学部生", "大学院生"}, "", "【月額】10万円", "【貸与】頑張って返してちょ", "1名程度", time.Now().Format("2006-01-02"), "当日締切", "", "", "2025-01-01"},
-		{2, "テスト財団", "URL: https://example.com", []string{"大学院生"}, "", "【月額】10万円", "【給付】無利子", "1名程度", time.Now().AddDate(0, 0, 7).Format("2006-01-02"), "来週締切", "", "", "2025-01-01"},
-		{3, "テスト支援金", "URL: https://example.com", []string{"学部生", "大学院生"}, "", "【月額】10万円", "【給付】無利子", "1名程度", time.Now().AddDate(0, 0, 7).Format("2006-01-02"), "来週締切", "", "", "2025-01-01"},
-		{4, "テスト給付金", "URL: https://example.com", []string{"学部生"}, "", "【月額】10万円", "【給付】無利子", "1名程度", time.Now().AddDate(0, 0, 7).Format("2006-01-02"), "来週締切", "", "", "2025-01-01"},
-		{5, "テスト奨学生", "URL: https://example.com", []string{"その他"}, "", "【月額】10万円", "【給付】無利子", "1名程度", time.Now().AddDate(0, 0, 14).Format("2006-01-02"), "再来週締切", "", "", "2025-01-01"},
+		{1, "テスト奨学金", "URL: https://example.com", []string{"学部生", "大学院生"}, "", "【月額】10万円", "[貸与]頑張って返してちょ", "1名程度", time.Now().Format("2006-01-02"), "当日締切", "", "", "2025-01-01"},
+		{2, "テスト財団", "URL: https://example.com", []string{"大学院生"}, "", "【月額】10万円", "[給付]無利子", "1名程度", time.Now().AddDate(0, 0, 7).Format("2006-01-02"), "来週締切", "", "", "2025-01-01"},
+		{3, "テスト支援金", "URL: https://example.com", []string{"学部生", "大学院生"}, "", "【月額】10万円", "[給付]無利子", "1名程度", time.Now().AddDate(0, 0, 7).Format("2006-01-02"), "来週締切", "", "", "2025-01-01"},
+		{4, "テスト給付金", "URL: https://example.com", []string{"学部生"}, "", "【月額】10万円", "[給付]無利子", "1名程度", time.Now().AddDate(0, 0, 7).Format("2006-01-02"), "来週締切", "", "", "2025-01-01"},
+		{5, "テスト奨学生", "URL: https://example.com", []string{"その他"}, "", "【月額】10万円", "[給付]無利子", "1名程度", time.Now().AddDate(0, 0, 14).Format("2006-01-02"), "再来週締切", "", "", "2025-01-01"},
 	}
 
 	tx, err := fdb.sess.Begin()
@@ -45,7 +45,11 @@ func (fdb *FakeDatabase) TestInitScholarships() error {
 			Remark:         d.Remark,
 			PostingDate:    postingDate,
 		}
-		if _, err := tx.InsertInto(tableScholarships).Record(s).Exec(); err != nil {
+		columns := []string{
+			"id", "name", "address", "target_detail", "amount_detail", "type_detail",
+			"capacity_detail", "deadline", "deadline_detail", "contact_point", "remark", "posting_date",
+		}
+		if _, err := tx.InsertInto(tableScholarships).Columns(columns...).Record(s).Exec(); err != nil {
 			return err
 		}
 		for _, target := range d.Targets {
