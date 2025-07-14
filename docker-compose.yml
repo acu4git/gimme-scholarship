@@ -22,7 +22,7 @@ services:
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - "3308:3306"
+      - "3309:3306"
     networks:
       - gs-net
 
