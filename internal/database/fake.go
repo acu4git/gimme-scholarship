@@ -13,21 +13,21 @@ import (
 )
 
 func init() {
-	user, password, host, port, dbname := "root", "root", "127.0.0.1", "3308", "gimme_scholarship_test"
+	user, password, host, port, dbname := "root", "root", "127.0.0.1", "3309", "gimme_scholarship_test"
 	if os.Getenv("FAKE_DB_USER") != "" {
 		user = os.Getenv("FAKE_DB_USER")
 	}
 	if os.Getenv("FAKE_DB_PASSWORD") != "" {
-		user = os.Getenv("FAKE_DB_PASSWORD")
+		password = os.Getenv("FAKE_DB_PASSWORD")
 	}
 	if os.Getenv("FAKE_DB_HOST") != "" {
-		user = os.Getenv("FAKE_DB_HOST")
+		host = os.Getenv("FAKE_DB_HOST")
 	}
 	if os.Getenv("FAKE_DB_PORT") != "" {
-		user = os.Getenv("FAKE_DB_PORT")
+		port = os.Getenv("FAKE_DB_PORT")
 	}
 	if os.Getenv("FAKE_DB_NAME") != "" {
-		user = os.Getenv("FAKE_DB_NAME")
+		dbname = os.Getenv("FAKE_DB_NAME")
 	}
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true",
@@ -64,7 +64,7 @@ func (f *FakeDatabase) connect() {
 	if err = sess.Ping(); err != nil {
 		panic(err)
 	}
-	f.sess = sess
+	f.Database = &Database{sess: sess}
 }
 
 func (f *FakeDatabase) TruncateTables() {
