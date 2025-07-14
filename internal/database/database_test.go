@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_FindScholarships(t *testing.T) {
+func TestFindScholarships(t *testing.T) {
 	fdb := NewFakeDatabase()
 	t.Cleanup(fdb.TruncateTables)
 	require.NoError(t, fdb.TestInitScholarships())
