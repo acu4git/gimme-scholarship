@@ -2,17 +2,15 @@ package model
 
 type EducationLevel string
 
-func (m EducationLevel) String() string {
-	return string(m)
-}
+const (
+	EducationLevelBacholor EducationLevel = "学部生"
+	EducationLevelMaster   EducationLevel = "大学院生"
+	EducationLevelOther    EducationLevel = "その他"
+)
 
 func (m EducationLevel) Validate() bool {
-	var res bool
-	switch m.String() {
-	case "学部生", "大学院生", "その他":
-		res = true
-	default:
-		res = false
+	if m != EducationLevelBacholor && m != EducationLevelMaster && m != EducationLevelOther {
+		return false
 	}
-	return res
+	return true
 }
