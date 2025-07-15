@@ -9,6 +9,8 @@ type User struct {
 	Name           UserName
 	Email          string
 	EducationLevel EducationLevel
+	Grade          int
+	AcceptEmail    bool
 }
 
 type UserName string
