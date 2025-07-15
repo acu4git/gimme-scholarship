@@ -275,7 +275,7 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 	jst, _ := time.LoadLocation("Asia/Tokyo")
 	now := time.Now().In(jst)
 	todayStart := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, jst)
-	deadlineDate := todayStart.AddDate(0, 0, 7)
+	deadlineDate := todayStart.AddDate(0, 0, 7).Format("2006-01-02")
 
 	log.Println("deadlineDate:", deadlineDate)
 
