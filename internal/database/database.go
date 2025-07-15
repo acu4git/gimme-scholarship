@@ -296,6 +296,7 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 		Join(tableUserFavorites, fmt.Sprintf("%s.id = %s.scholarship_id", tableScholarships, tableUserFavorites)).
 		Join(tableUsers, fmt.Sprintf("%s.id = %s.user_id", tableUsers, tableUserFavorites)).
 		Where(fmt.Sprintf("%s.deadline = ?", tableScholarships), deadlineDate).
+		Where(fmt.Sprintf("%s.accept_email = ?", tableUsers), true).
 		Load(&results); err != nil {
 		if errors.Is(err, dbr.ErrNotFound) {
 			return nil, errors.New("error: not found at FindUsersToNotifyForUpcomingDeadlines")
