@@ -281,10 +281,10 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 
 	results := make([]UserScholarshipNotification, 0)
 	tx, err := db.sess.Begin()
-	defer tx.RollbackUnlessCommitted()
 	if err != nil {
 		return nil, err
 	}
+	defer tx.RollbackUnlessCommitted()
 
 	if _, err := tx.Select(
 		fmt.Sprintf("%s.id AS user_id", tableUsers),
