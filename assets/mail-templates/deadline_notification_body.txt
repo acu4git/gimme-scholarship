@@ -5,6 +5,6 @@
 ・{{ .Name }} ({{ .Deadline }})
 {{end}}
 
-{{template "mail-templates/_shared/default_footer.txt" .}}
+{{template "mail-templates/footer_url_info.txt" .}}
 
-{{template "mail-templates/_shared/default_disclaimer.txt" .}}
+{{template "mail-templates/footer_disclaimer.txt" .}}
