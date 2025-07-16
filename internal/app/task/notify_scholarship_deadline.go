@@ -55,14 +55,14 @@ func (e *NotifyScholarshipDeadlineExecutor) Execute() error {
 		return fmt.Errorf("failed to clone template: %w", err)
 	}
 
-	bodyTmpl := tmpl.Lookup("mail-templates/deadline_notification/body.txt")
+	bodyTmpl := tmpl.Lookup("deadline_notification_body.txt")
 	if bodyTmpl == nil {
-		return fmt.Errorf("template 'mail-templates/deadline_notification/body.txt' not found")
+		return fmt.Errorf("template 'deadline_notification_body.txt' not found")
 	}
 
-	subjectTmpl := tmpl.Lookup("mail-templates/deadline_notification/subject.txt")
+	subjectTmpl := tmpl.Lookup("deadline_notification_subject.txt")
 	if subjectTmpl == nil {
-		return fmt.Errorf("template 'mail-templates/deadline_notification/subject.txt' not found")
+		return fmt.Errorf("template 'deadline_notification_subject.txt' not found")
 	}
 
 	var subjectBuf bytes.Buffer
@@ -71,7 +71,7 @@ func (e *NotifyScholarshipDeadlineExecutor) Execute() error {
 	}
 
 	ctx := context.Background()
-	log.Printf("Sending deadline notifications to %d users...", len(bulkData))
+	log.Printf("Sending deadline notifications to %d users...\n", len(bulkData))
 	if err := e.mailer.SendBulkEmail(ctx, subjectBuf.String(), bodyTmpl, bulkData); err != nil {
 		return fmt.Errorf("failed to send bulk email: %w", err)
 	}
