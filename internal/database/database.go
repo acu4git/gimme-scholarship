@@ -277,8 +277,6 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 	todayStart := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, jst)
 	deadlineDate := todayStart.AddDate(0, 0, 7).Format("2006-01-02")
 
-	log.Println("deadlineDate:", deadlineDate)
-
 	results := make([]UserScholarshipNotification, 0)
 	tx, err := db.sess.Begin()
 	if err != nil {
@@ -307,8 +305,6 @@ func (db *Database) FindUsersToNotifyForUpcomingDeadlines() (map[string][]model.
 	if err := tx.Commit(); err != nil {
 		return nil, err
 	}
-
-	log.Println("results:", results)
 
 	// key: email address, value: scholarship info
 	userScholarships := make(map[string][]model.Scholarship)
