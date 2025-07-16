@@ -55,12 +55,12 @@ func (e *NotifyScholarshipDeadlineExecutor) Execute() error {
 		return fmt.Errorf("failed to clone template: %w", err)
 	}
 
-	bodyTmpl := tmpl.Lookup("mail-templates/deadline_notification/body.txt")
+	bodyTmpl := tmpl.Lookup("deadline_notification/body.txt")
 	if bodyTmpl == nil {
 		return fmt.Errorf("template 'mail-templates/deadline_notification/body.txt' not found")
 	}
 
-	subjectTmpl := tmpl.Lookup("mail-templates/deadline_notification/subject.txt")
+	subjectTmpl := tmpl.Lookup("deadline_notification/subject.txt")
 	if subjectTmpl == nil {
 		return fmt.Errorf("template 'mail-templates/deadline_notification/subject.txt' not found")
 	}
