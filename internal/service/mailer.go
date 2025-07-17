@@ -2,15 +2,16 @@ package service
 
 import (
 	"context"
-	"text/template"
+
+	"github.com/acu4git/gimme-scholarship/internal/domain/model"
 )
 
 type BulkEmailData struct {
 	To           string
-	TemplateData any
+	TemplateData map[string]any
 }
 
 type Mailer interface {
 	SendEmail(ctx context.Context, to, subject, body string) error
-	SendBulkEmail(ctx context.Context, subject string, tmpl *template.Template, data []BulkEmailData) error
+	SendBulkEmail(ctx context.Context, mailKey model.MailKey, data []BulkEmailData) error
 }

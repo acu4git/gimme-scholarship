@@ -1,12 +1,11 @@
 package mailer
 
 import (
-	"bytes"
 	"context"
 	"errors"
 	"log"
-	"text/template"
 
+	"github.com/acu4git/gimme-scholarship/internal/domain/model"
 	"github.com/acu4git/gimme-scholarship/internal/service"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -50,18 +49,17 @@ func (m *sesMailer) SendEmail(ctx context.Context, to, subject, body string) err
 	return err
 }
 
-func (m *sesMailer) SendBulkEmail(ctx context.Context, subject string, tmpl *template.Template, data []service.BulkEmailData) error {
+func (m *sesMailer) SendBulkEmail(ctx context.Context, mailKey model.MailKey, data []service.BulkEmailData) error {
 	var sendErrors []error
 
 	for _, item := range data {
-		var body bytes.Buffer
-		if err := tmpl.Execute(&body, item.TemplateData); err != nil {
-			log.Printf("template execution failed for %s: %v", item.To, err)
-			sendErrors = append(sendErrors, err)
-			continue
+		subject, body, err := mailKey.MailBodyWithFooter(item.TemplateData)
+		if err != nil {
+			log.Printf("MailBodyWithFooter failed: %s\n", mailKey)
+			return err
 		}
 
-		if err := m.SendEmail(ctx, item.To, subject, body.String()); err != nil {
+		if err := m.SendEmail(ctx, item.To, subject, body); err != nil {
 			log.Printf("failed to send email to %s: %v", item.To, err)
 			sendErrors = append(sendErrors, err)
 			continue
