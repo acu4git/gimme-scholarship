@@ -1,5 +1,3 @@
-{{define "url_info"}}
 ---
 クレクレ奨学金
 https://www.kit-gimme-scholarships.com
-{{end}}

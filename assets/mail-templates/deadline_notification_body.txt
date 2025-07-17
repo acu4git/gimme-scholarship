@@ -5,6 +5,6 @@
 ・{{ .Name }} ({{ .Deadline }})
 {{end}}
 
-{{template "footer_url_info.txt" .}}
+{{ .Disclaimer }}
 
-{{template "footer_disclaimer.txt" .}}
+{{ .AppInfo }}
