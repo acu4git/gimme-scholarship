@@ -42,19 +42,14 @@ func (e *NotifyScholarshipDeadlineExecutor) Execute() error {
 		return fmt.Errorf("failed to clone template: %w", err)
 	}
 
+	var subjectBuf bytes.Buffer
+	if err := tmpl.ExecuteTemplate(&subjectBuf, "deadline_notification_subject.txt", nil); err != nil {
+		return fmt.Errorf("failed to execute subject template: %w", err)
+	}
+
 	bodyTmpl := tmpl.Lookup("deadline_notification_body.txt")
 	if bodyTmpl == nil {
 		return fmt.Errorf("template 'deadline_notification_body.txt' not found")
-	}
-
-	subjectTmpl := tmpl.Lookup("deadline_notification_subject.txt")
-	if subjectTmpl == nil {
-		return fmt.Errorf("template 'deadline_notification_subject.txt' not found")
-	}
-
-	var subjectBuf bytes.Buffer
-	if err := subjectTmpl.Execute(&subjectBuf, nil); err != nil {
-		return fmt.Errorf("failed to execute subject template: %w", err)
 	}
 
 	var disclaimerBuf bytes.Buffer
