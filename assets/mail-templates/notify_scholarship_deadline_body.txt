@@ -1,10 +1,6 @@
 もうすぐ締め切りの奨学金があります。
 ご確認の上、お早めにご応募ください。
 
-{{range .Scholarships}}
-・{{ .Name }} ({{ .Deadline }})
-{{end}}
+{{ .Scholarships }}
 
-{{ .Disclaimer }}
-
-{{ .AppInfo }}
+{{ .Footer }}
