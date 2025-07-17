@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/acu4git/gimme-scholarship/internal/domain/model"
 	"github.com/acu4git/gimme-scholarship/internal/domain/repository"
@@ -40,8 +41,9 @@ func (e *NotifyScholarshipDeadlineExecutor) Execute() error {
 		text := ""
 		for i := range scholarships {
 			text += fmt.Sprintf("=== %d件目\n", i+1)
-			text += fmt.Sprintf("・奨学金名\n\t%s\n", scholarships[i].Name)
-			text += fmt.Sprintf("・形式\n\t%s\n\n", scholarships[i].TypeDetail)
+			text += fmt.Sprintf("【奨学金名】\n%s\n", scholarships[i].Name)
+			text += fmt.Sprintf("【対象】\n%s\n", strings.Join(scholarships[i].Targets, "・"))
+			text += fmt.Sprintf("【形式】\n%s\n\n", scholarships[i].TypeDetail)
 		}
 		templateData := map[string]any{
 			"Scholarships": text,
