@@ -37,19 +37,6 @@ func (e *NotifyScholarshipDeadlineExecutor) Execute() error {
 		return nil
 	}
 
-	bulkData := make([]service.BulkEmailData, 0, len(userScholarships))
-	for email, scholarships := range userScholarships {
-		templateData := struct {
-			Scholarships []model.Scholarship
-		}{
-			Scholarships: scholarships,
-		}
-		bulkData = append(bulkData, service.BulkEmailData{
-			To:           email,
-			TemplateData: templateData,
-		})
-	}
-
 	tmpl, err := assets.MailTemplatesTpl.Clone()
 	if err != nil {
 		return fmt.Errorf("failed to clone template: %w", err)
@@ -68,6 +55,33 @@ func (e *NotifyScholarshipDeadlineExecutor) Execute() error {
 	var subjectBuf bytes.Buffer
 	if err := subjectTmpl.Execute(&subjectBuf, nil); err != nil {
 		return fmt.Errorf("failed to execute subject template: %w", err)
+	}
+
+	var disclaimerBuf bytes.Buffer
+	if err := tmpl.ExecuteTemplate(&disclaimerBuf, "footer_disclaimer.txt", nil); err != nil {
+		return fmt.Errorf("failed to execute disclaimer template: %w", err)
+	}
+
+	var appInfoBuf bytes.Buffer
+	if err := tmpl.ExecuteTemplate(&appInfoBuf, "footer_app_info", nil); err != nil {
+		return fmt.Errorf("failed to execute app info template: %w", err)
+	}
+
+	bulkData := make([]service.BulkEmailData, 0, len(userScholarships))
+	for email, scholarships := range userScholarships {
+		templateData := struct {
+			Scholarships []model.Scholarship
+			Disclaimer   string
+			AppInfo      string
+		}{
+			Scholarships: scholarships,
+			Disclaimer:   disclaimerBuf.String(),
+			AppInfo:      appInfoBuf.String(),
+		}
+		bulkData = append(bulkData, service.BulkEmailData{
+			To:           email,
+			TemplateData: templateData,
+		})
 	}
 
 	ctx := context.Background()
