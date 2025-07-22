@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -8,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/acu4git/gimme-scholarship/internal/app/api/handler"
+	"github.com/acu4git/gimme-scholarship/internal/infra/mailer"
 	"github.com/acu4git/gimme-scholarship/internal/service"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -47,11 +49,14 @@ func main() {
 	e.Use(auth.OptionalJWTMiddleware()) // optional認証
 
 	// Injection
+	ctx := context.Background()
 	repository, err := service.CreateRepository()
 	if err != nil {
 		log.Fatal(err)
 	}
-	handler := handler.NewAPIHandler(repository)
+	mailer, err := mailer.NewSESMailer(ctx, "no-reply@kit-gimme-scholarship.com")
+
+	handler := handler.NewAPIHandler(repository, mailer)
 
 	registerRoutes(e, handler)
 

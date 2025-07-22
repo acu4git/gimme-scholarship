@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,18 +10,22 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/acu4git/gimme-scholarship/internal/domain/model"
 	"github.com/acu4git/gimme-scholarship/internal/domain/repository"
+	"github.com/acu4git/gimme-scholarship/internal/service"
 	"github.com/labstack/echo/v4"
 	svix "github.com/svix/svix-webhooks/go"
 )
 
 type APIHandler struct {
 	repository repository.Repository
+	mailer     service.Mailer
 }
 
-func NewAPIHandler(repository repository.Repository) *APIHandler {
+func NewAPIHandler(repository repository.Repository, mailer service.Mailer) *APIHandler {
 	return &APIHandler{
 		repository: repository,
+		mailer:     mailer,
 	}
 }
 
@@ -48,6 +53,20 @@ func (h *APIHandler) PostUser(c echo.Context) error {
 	if err := h.repository.CreateUser(repository.UserInput{ID: userID, Email: param.Email, Level: param.Level, Grade: int64(param.Grade), AcceptEmail: param.AcceptEmail}); err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]any{
 			"error": "failed to create user: " + err.Error(),
+		})
+	}
+
+	mailKey := model.MailKeyNotifyUserWelcome
+	subject, body, err := mailKey.MailBodyWithFooter(nil)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": fmt.Sprintf("failed to generate subject and body: %s", err.Error()),
+		})
+	}
+
+	if err := h.mailer.SendEmail(context.Background(), param.Email, subject, body); err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": fmt.Sprintf("failed to send email to %s: %s", param.Email, err.Error()),
 		})
 	}
 
