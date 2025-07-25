@@ -14,7 +14,8 @@ def is_white_background(cell_bbox, rects):
     for rect in rects:
         if "non_stroking_color" in rect:
             color = rect["non_stroking_color"]
-            if color != (1,):  # RGB白でない
+            # グレースケールの白 (1) と RGBの白 (1, 1, 1) を許容
+            if color not in [(1,), (1, 1, 1)]:
                 # バウンディングボックスの重なり判定
                 rx0, ry0, rx1, ry1 = rect["x0"], rect["top"], rect["x1"], rect["bottom"]
                 cx0, cy0, cx1, cy1 = cell_bbox
