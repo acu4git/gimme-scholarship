@@ -9,6 +9,11 @@ import logging
 
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
+KEY_POSTING_DATE = "掲示日"
+KEY_TARGET = "対象（学部・院）"
+KEY_DEADLINE = "申請期日"
+KEY_DETAIL_DEADLINE = "申請期限等"
+
 
 def is_white_background(cell_bbox, rects):
     for rect in rects:
@@ -36,19 +41,13 @@ def reiwa_to_date(date_str):
 
 # 奨学金のレコード(辞書型)のリストを返す
 def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
-    base_url = (
-        "https://www.kit.ac.jp/campus_index/life_fee/scholarship/minkanscholarship/"
-    )
-    pdf_pattern = re.compile(
-        r"https://www\.kit\.ac\.jp/wp/wp-content/uploads/\d{4}/\d{2}/.*hpsyougakukinitiran.*\.pdf"
-    )
+    base_url = "https://www.kit.ac.jp/campus_index/life_fee/scholarship/minkanscholarship/"
+    pdf_pattern = re.compile(r"https://www\.kit\.ac\.jp/wp/wp-content/uploads/\d{4}/\d{2}/.*hpsyougakukinitiran.*\.pdf")
 
     html = requests.get(base_url).text
     soup = BeautifulSoup(html, "html.parser")
 
-    pdf_links = [
-        a["href"] for a in soup.find_all("a", href=True) if pdf_pattern.match(a["href"])
-    ]
+    pdf_links = [a["href"] for a in soup.find_all("a", href=True) if pdf_pattern.match(a["href"])]
     if not pdf_links:
         return []
 
@@ -76,11 +75,7 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
 
                 # セルの位置取得
                 match_word = next(
-                    (
-                        w
-                        for w in page.extract_words()
-                        if w["text"].strip() == first_cell_text.strip()
-                    ),
+                    (w for w in page.extract_words() if w["text"].strip() == first_cell_text.strip()),
                     None,
                 )
                 if not match_word:
@@ -98,22 +93,18 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
                     break
 
                 # 整形
-                if row_data["掲示日"] != "":
-                    row_data["掲示日"] = reiwa_to_date(row_data["掲示日"])
+                if row_data[KEY_POSTING_DATE] != "":
+                    row_data[KEY_POSTING_DATE] = reiwa_to_date(row_data[KEY_POSTING_DATE])
                 else:
-                    row_data["掲示日"] = date.min
-                row_data["対象(学部・院)"] = row_data["対象(学部・院)"].replace(
-                    "\n", ""
-                )
-                if row_data["申請期限等"] != "" and row_data["申請期限等"].startswith(
-                    "令和"
-                ):
-                    row_data["申請期日"] = reiwa_to_date(row_data["申請期限等"])
+                    row_data[KEY_POSTING_DATE] = date.min
+                row_data[KEY_TARGET] = row_data[KEY_TARGET].replace("\n", "")
+                if row_data[KEY_DETAIL_DEADLINE] != "" and row_data[KEY_DETAIL_DEADLINE].startswith("令和"):
+                    row_data[KEY_DEADLINE] = reiwa_to_date(row_data[KEY_DETAIL_DEADLINE])
                 else:
-                    row_data["申請期日"] = date.max
+                    row_data[KEY_DEADLINE] = date.max
 
                 # 申請期日切れのものもPDFに含まれているので除外
-                if jst_now <= row_data["申請期日"]:
+                if jst_now <= row_data[KEY_DEADLINE]:
                     result.append(row_data)
 
             if flag:
