@@ -68,7 +68,7 @@ def fetch_latest_scholarships() -> list[dict[str | None, str | None]]:
                 continue
 
             rects = page.rects
-            headers = table[0]
+            headers = [s.replace("\n", "") for s in table[0]]
             for row in table[1:]:
                 row_data = dict(zip(headers, row))
                 first_cell_text = row[0]
