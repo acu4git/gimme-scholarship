@@ -10,7 +10,7 @@ import logging
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
 KEY_POSTING_DATE = "掲示日"
-KEY_TARGET = "対象（学部・院）"
+KEY_TARGET = "対象(学部・院)"
 KEY_DEADLINE = "申請期日"
 KEY_DETAIL_DEADLINE = "申請期限等"
 
